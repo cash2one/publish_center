@@ -1,0 +1,39 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            {% include 'nav_li_profile.html' %}
+            <li id="index">
+               <a href="{% url 'index' %}"><i class="fa fa-dashboard"></i> <span class="nav-label">仪表盘</span><span class="label label-info pull-right"></span></a>
+            </li>
+            {% if perms.account.perm_can_view_account %}
+                <li id="account">
+                    <a href="#"><i class="fa fa-group"></i> <span class="nav-label">用户管理</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        {% if perms.account.perm_can_view_group %}
+                        <li class="group"><a href="{% url 'user_group_list' %}">查看用户组</a></li>
+                        {% endif %}
+                        {% if perms.account.perm_can_view_user %}
+                        <li class="user"><a href="{% url 'user_list' %}">查看用户<span class="label {% ifequal user_active_num user_total_num %}label-primary {% else %}label-warning {% endifequal %}pull-right">{{ user_active_num }}/{{ user_total_num }}</span></a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+            {% endif %}
+            {% if perms.account.perm_can_view_express %}
+                <li id="express">
+                    <a href="#"><i class="fa fa-send"></i> <span class="nav-label">发布管理</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        {% if perms.account.perm_can_add_publish_task %}
+                            <li class="publish_task_add"><a href="{% url 'publish_task_add' %}">创建发布任务</a></li>
+                        {% endif %}
+                        {% if perms.account.perm_can_view_publish_task %}
+                            <li class="publish_task_list"><a href="{% url 'publish_task_list' %}">查看发布任务</a></li>
+                        {% endif %}
+                        {% if perms.account.perm_can_apply_publish_task %}
+                            <li class="publish_task_apply"><a href="{% url 'publish_task_apply_list' %}">审核发布任务{% if apply_num != 0 %}<span class="label label-warning pull-right">{{ apply_num }}</span>{% endif %}</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

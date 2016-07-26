@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load mytags %}
+
+
+{% block content %}
+    {% include 'nav_cat_bar.html' %}
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-primary"><b>{{ user.name }}</b></span>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#"></a>
+                                </li>
+                                <li><a href="#"></a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div>
+                            <div class="text-left">
+                                <table class="table">
+                                    <tr>
+                                        <td class="text-navy">ID</td>
+                                        <td>{{ user.id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-navy">用户名</td>
+                                        <td>{{ user.username }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-navy">姓名</td>
+                                        <td>{{ user.name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-navy">Email</td>
+                                        <td>{{ user.email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-navy">手机号</td>
+                                        <td>{{ user.phone }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-navy">QQ</td>
+                                        <td>{{ user.qq }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="text-navy">激活</td>
+                                        <td>{{ user.is_active|bool2str }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-navy">添加日期</td>
+                                        <td>{{ user.date_joined|date:"Y-m-d H:i:s" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-navy">最后登录</td>
+                                        <td>{{ user.last_login|date:"Y-m-d H:i:s" }}</td>
+                                    </tr>
+                                    {% if perms.account.perm_can_view_group %}
+                                    <tr>
+                                        <td class="text-navy">所在用户组</td>
+                                        <td>
+                                             <table class="table">
+                                                 {% for group in user.groups.all %}
+                                                    <tr>
+                                                        <td><a href="{% url 'user_group_list' %}?id={{ group.id }}">{{ group.name }}</a></td>
+                                                    </tr>
+                                                 {% endfor %}
+                                             </table>
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    $(document).ready(function(){
+        $('#show').click(function(){
+            $('#last').css('display', 'none');
+            $('#all').css('display', 'block');
+        })
+    })
+</script>
+
+
+{% endblock %}
