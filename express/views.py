@@ -202,6 +202,7 @@ def publish_task_submit(request):
             publish_task.submit_time = datetime.datetime.now()
             if publish_task.env == '1':
                 publish_task.status = 2
+                publish_task.save()
             elif publish_task.env == '2':
                 publish_task.approval_time = datetime.datetime.now()
                 publish_task.approval_by = request.user.username
