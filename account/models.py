@@ -42,6 +42,7 @@ class Role(models.Model):
 
             ("perm_can_view_express", u'发布服务'),
 
+            ("perm_can_view_publish_task", u"查看发布任务"),
             ("perm_can_add_publish_task", u"新增发布任务"),
             ("perm_can_change_publish_task", u"修改发布任务"),
             ("perm_can_delete_publish_task", u"删除发布任务"),
