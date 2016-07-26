@@ -15,7 +15,6 @@ import tornado.websocket
 import tornado.httpserver
 import tornado.gen
 import tornado.httpclient
-from tornado.websocket import WebSocketClosedError
 from tornado.options import define, options
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'publish_center.settings'
