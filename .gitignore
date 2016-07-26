@@ -3,4 +3,4 @@ logs/
 *.pyc
 .idea/
 data/
-opsplatform.conf
+publish_center.conf

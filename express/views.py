@@ -200,7 +200,10 @@ def publish_task_submit(request):
         if publish_task.status == '1':
             publish_task.submit_by = request.user.username
             publish_task.submit_time = datetime.datetime.now()
-            publish_task.status = 2
+            if publish_task.env == '1':
+                publish_task.status = 2
+            elif publish_task.env == '2':
+                publish_task.status = 3
             publish_task.save()
 
     return HttpResponseRedirect(reverse('publish_task_list'))
