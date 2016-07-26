@@ -41,7 +41,7 @@
                                     </tr>
                                     <tr>
                                         <td class="text-navy">产品线</td>
-                                        <td>{{ publish_task.product }}</td>
+                                        <td>{{ publish_task.product|get_product_name }}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-navy">产品名称</td>
@@ -52,7 +52,7 @@
                                     <tr>
                                         <td class="text-navy">环境类型</td>
                                         <td>
-                                            {{ publish_task.env }}
+                                            {{ publish_task.env|get_env_name }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -108,12 +108,8 @@
                                         <td>{{ publish_task.submit_by|none2null }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-navy">计划发版时间</td>
-                                        <td>{{ publish_task.publish_time|none2null }}</td>
-                                    </tr>
-                                    <tr>
                                         <td class="text-navy">状态</td>
-                                        <td>{{ publish_task.status }}</td>
+                                        <td>{{ publish_task.status|get_status_name }}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-navy">创建时间</td>
