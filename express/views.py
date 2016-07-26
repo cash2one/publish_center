@@ -203,8 +203,35 @@ def publish_task_submit(request):
             if publish_task.env == '1':
                 publish_task.status = 2
             elif publish_task.env == '2':
+                publish_task.approval_time = datetime.datetime.now()
+                publish_task.approval_by = request.user.username
+                publish_task.publish_time = u'立即'
                 publish_task.status = 3
-            publish_task.save()
+                publish_task.save()
+                ctx = {"seq_no": publish_task.seq_no, "product": publish_task.product,
+                   "project": publish_task.project, "env": publish_task.env,
+                   "version": publish_task.version,
+                   "update_remark": publish_task.update_remark,
+                   "code_dir": publish_task.code_dir,
+                   "code_tag": publish_task.code_tag,
+                   "database_update": publish_task.database_update,
+                   "upload_sql": publish_task.upload_sql,
+                   "settings": publish_task.settings,
+                   "update_note": publish_task.update_note, "owner": publish_task.owner,
+                   "submit_time": publish_task.submit_time.strftime("%Y-%m-%d %H:%M:%S"),
+                   "submit_by": publish_task.submit_by,
+                   "approval_time": publish_task.approval_time.strftime("%Y-%m-%d %H:%M:%S"),
+                   "approval_by": publish_task.approval_by,
+                   "publish_time": publish_task.publish_time,
+                   "status": publish_task.status,
+                   "create_time": publish_task.create_time.strftime("%Y-%m-%d %H:%M:%S"),
+                   "create_by": publish_task.create_by}
+                data = api_call('%s%s' % (settings.OPS_DOMAIN, settings.PUBLISH_TASK_CREATE),
+                            json.dumps({"data": ctx}), 'POST', {'Content-Type': 'application/json'})
+                if data and data.get('code') == 0:
+                    error = data.get('msg')
+                if not data:
+                    error = u'无法打开目标网址,请联系系统开发人员!'
 
     return HttpResponseRedirect(reverse('publish_task_list'))
 

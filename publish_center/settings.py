@@ -173,5 +173,5 @@ STATICFILES_DIRS = (
 )
 
 
-OPS_DOMAIN = 'http://127.0.0.1:8080/api'
+OPS_DOMAIN = config.get('base', 'ops_domain')
 PUBLISH_TASK_CREATE = '/publish_task_create/'
