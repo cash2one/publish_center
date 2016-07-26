@@ -26,11 +26,10 @@ start() {
              success "$ops_start"
              echo
         else
-            daemon $publish_center_dir/venv/bin/python $publish_center_dir/manage.py crontab add &>> /var/log/publish_center.log 2>&1
             daemon $publish_center_dir/venv/bin/python $publish_center_dir/run_server.py &> /dev/null 2>&1 &
             sleep 1
             echo -n "$ops_start"
-            ps axu | grep 'run_server' | grep -v 'grep' &> /dev/null
+            ps axu | grep 'run_publish_server' | grep -v 'grep' &> /dev/null
             if [ $? == '0' ];then
                 success "$ops_start"
                 if [ ! -e $lockfile ]; then
@@ -49,8 +48,7 @@ start() {
 
 stop() {
     echo -n $"Stopping ${PROC_NAME} service:"
-    daemon $publish_center_dir/venv/bin/python $publish_center_dir/manage.py crontab remove &>> /var/log/publish_center.log 2>&1
-    ps aux | grep -E 'run_server.py' | grep -v grep | awk '{print $2}' | xargs kill -9 &> /dev/null
+    ps aux | grep -E 'run_publish_server.py' | grep -v grep | awk '{print $2}' | xargs kill -9 &> /dev/null
     ret=$?
     if [ $ret -eq 0 ]; then
         echo_success
@@ -65,7 +63,7 @@ stop() {
 }
 
 status(){
-    ps axu | grep 'run_server' | grep -v 'grep' &> /dev/null
+    ps axu | grep 'run_publish_server' | grep -v 'grep' &> /dev/null
     if [ $? == '0' ];then
         echo -n "publish_center is running..."
         success

@@ -25,7 +25,10 @@ def publish_task_status_update(request):
             status = data.get('status')
             publish_task = PublishTask.objects.get(id=task_id)
             if status == '4':
-                pass
+                publish_task.status = 4
+                publish_task.deploy_time = data.get('deploy_time')
+                publish_task.deploy_by = data.get('deploy_by')
+                publish_task.save()
         except Exception, e:
             print e
             return JsonResponse({'msg': "parameter format invalid.", 'code': 0})

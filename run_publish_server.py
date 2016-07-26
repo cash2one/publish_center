@@ -3,7 +3,7 @@
 """
 @version: 
 @author: liriqiang
-@file: run_server.py
+@file: run_publish_server.py
 @time: 16-7-26 下午4:02
 """
 import os
