@@ -26,7 +26,7 @@ start() {
              success "$ops_start"
              echo
         else
-            daemon $publish_center_dir/venv/bin/python $publish_center_dir/run_server.py &> /dev/null 2>&1 &
+            daemon $publish_center_dir/venv/bin/python $publish_center_dir/run_publish_server.py &> /dev/null 2>&1 &
             sleep 1
             echo -n "$ops_start"
             ps axu | grep 'run_publish_server' | grep -v 'grep' &> /dev/null
