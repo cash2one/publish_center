@@ -211,7 +211,7 @@ def publish_task_submit(request):
             if publish_task.env == '1':
                 publish_task.status = 2
                 publish_task.save()
-                apply_user = get_object(User, username=publish_task.owner)
+                apply_user = get_object(User, name=publish_task.owner)
                 detail_url = settings.URL + '/express/publish_task_detail/?id=' + task_id
                 # 发送审批邮件
                 msg = u"""
@@ -344,7 +344,7 @@ def publish_task_apply(request):
                 error = u'无法打开目标网址,请联系系统开发人员!'
             # 发送运维发布通知邮件
             detail_url = settings.OPS_DOMAIN + '/express/publish_task_list/'
-            apply_user = get_object(User, username=publish_task.owner)
+            apply_user = get_object(User, name=publish_task.owner)
             msg = u"""
                     Hi all,
                         发布中心有一条新的发布任务创建,请登陆运维系统操作发布
