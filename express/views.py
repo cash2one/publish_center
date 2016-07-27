@@ -229,7 +229,7 @@ def publish_task_submit(request):
                        "create_by": publish_task.create_by}
                 data = api_call('%s%s' % (settings.OPS_DOMAIN, settings.PUBLISH_TASK_CREATE),
                                 json.dumps({"data": ctx}), 'POST', {'Content-Type': 'application/json'})
-                if data and data.get('code') == 0:
+                if data and data.get('code') == -1:
                     error = data.get('msg')
                     return HttpResponse(error)
                 if not data:

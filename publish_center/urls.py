@@ -24,4 +24,5 @@ urlpatterns = [
 
     url(r'^account/', include('account.urls')),
     url(r'^express/', include('express.urls')),
+    url(r'^api/', include('api.urls')),
 ]

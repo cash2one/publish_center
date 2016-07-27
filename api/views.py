@@ -16,18 +16,26 @@ from publish_center.api import JsonResponse
 @csrf_exempt
 def publish_task_status_update(request):
     """
-    json {"task_id": 1, "status": "1", "deploy_time": "2016-07-26 22:30:00", "deploy_by": "username"}
+    json {"seq_no": 1, "status": "1", "deploy_time": "2016-07-26 22:30:00", "deploy_by": "username"}
     """
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            task_id = data.get('task_id')
+            print data
+            seq_no = data.get('seq_no')
             status = data.get('status')
-            publish_task = PublishTask.objects.get(id=task_id)
-            if status == '4':
+            publish_task = PublishTask.objects.get(seq_no=seq_no)
+            if status == 4:
                 publish_task.status = 4
                 publish_task.deploy_time = data.get('deploy_time')
                 publish_task.deploy_by = data.get('deploy_by')
+                publish_task.save()
+
+            elif status == 5:
+                publish_task.status = 5
+                publish_task.save()
+            elif status == 6:
+                publish_task.status = 6
                 publish_task.save()
         except Exception, e:
             print e
