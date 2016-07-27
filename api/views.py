@@ -9,8 +9,8 @@
 
 from express.models import PublishTask
 from django.views.decorators.csrf import csrf_exempt
-import json
-from publish_center.api import JsonResponse
+from publish_center.api import *
+from publish_center import settings
 
 
 @csrf_exempt
@@ -30,6 +30,9 @@ def publish_task_status_update(request):
                 publish_task.deploy_time = data.get('deploy_time')
                 publish_task.deploy_by = data.get('deploy_by')
                 publish_task.save()
+                # 发送邮件
+                msg = u"""""" % ()
+                send_mail('您的信息已修改', msg, settings.EMAIL_HOST_USER, [], fail_silently=False)
 
             elif status == 5:
                 publish_task.status = 5
