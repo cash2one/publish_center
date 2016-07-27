@@ -175,4 +175,4 @@ STATICFILES_DIRS = (
 SESSION_COOKIE_NAME = 'publish_center'
 
 OPS_DOMAIN = config.get('base', 'ops_domain')
-PUBLISH_TASK_CREATE = '/publish_task_create/'
+PUBLISH_TASK_CREATE = '/api/publish_task_create/'
