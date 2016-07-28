@@ -224,7 +224,7 @@ def publish_task_submit(request):
 
                 # 发送提交知会邮件
                 msg = u"""
-                    Hi all,
+                    Hi All,
                         发布中心有一条新的发布任务被提交，等待产品审核
                         发布序列号: %s
                         产品线: %s
@@ -346,17 +346,17 @@ def publish_task_apply(request):
             detail_url = settings.OPS_DOMAIN + '/express/publish_task_list/'
             apply_user = get_object(User, name=publish_task.owner)
             msg = u"""
-                    Hi all,
+                    Hi All,
                         发布中心有一条新的发布任务创建,请登陆运维系统操作发布
                         %s
                 """ % (detail_url, )
-            ops_email = ['mougong@rrkd.cn', 'zhangxin@rrkd.cn', 'mingxu@rrkd.cn', 'zhenggang@rrkd.cn', 'riqianf@rrkd.cn']
+            ops_email = ['mougong@rrkd.cn', 'zhangxin@rrkd.cn', 'mingxu@rrkd.cn', 'zhenggang@rrkd.cn', 'riqiang@rrkd.cn']
             # ops_email = ['riqiang@rrkd.cn']
             send_mail('[发布中心][待发版提醒]', msg, settings.EMAIL_HOST_USER, ops_email, fail_silently=False)
 
             # 发送审批知会邮件
             msg = u"""
-                    Hi all,
+                    Hi All,
                         发布中心有一条新的发布任务被审核，已提交到运维平台等待发布
                         发布序列号: %s
                         产品线: %s
