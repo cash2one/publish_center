@@ -72,8 +72,8 @@ def publish_task_status_update(request):
                 send_mail('[运维发布中心][发布任务已发布完成提醒]', msg, settings.EMAIL_HOST_USER,
                           qa_email + pm_email + ops_email, fail_silently=False)
                 # 发送发布完成短信
-                sms_msg = u"""【运维发布中心】%s%s 已经成功上线, 请及时关注!""" % (publish_task.project, publish_task.version)
-                sms_send(ops_sms + qa_sms + pm_sms, sms_msg)
+                # sms_msg = u"""【运维发布中心】%s%s 已经成功上线, 请及时关注!""" % (publish_task.project, publish_task.version)
+                # sms_send(ops_sms + qa_sms + pm_sms, sms_msg)
 
             elif status == 5:
                 publish_task.status = 5

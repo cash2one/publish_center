@@ -20,4 +20,3 @@ def sms_send(mobiles, content):
     """
     param = {'tos': ','.join(mobiles), 'content': content}
     r = requests.post(settings.SMS_INTERFACE, data=param)
-    print r.status_code
