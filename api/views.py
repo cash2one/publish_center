@@ -38,7 +38,7 @@ def publish_task_status_update(request):
                 publish_task.deploy_by = data.get('deploy_by')
                 publish_task.save()
                 # 发送发版完成提醒邮件
-
+                apply_user = get_object(User, name=publish_task.owner)
                 detail_url = settings.URL + '/express/publish_task_detail/?id=' + str(publish_task.id)
                 msg = u"""
                     Hi All,
@@ -57,7 +57,6 @@ def publish_task_status_update(request):
                        apply_user.name,
                        publish_task.update_remark,
                        detail_url)
-                apply_user = get_object(User, name=publish_task.owner)
                 submit_user = get_object(User, username=publish_task.submit_by)
                 qa_email = [submit_user.email]
                 qa_sms = [submit_user.phone]
@@ -70,10 +69,10 @@ def publish_task_status_update(request):
                 for user in users:
                     ops_email.append(user.get('email'))
                     ops_sms.append(user.get('phone'))
-                send_mail('[发布中心][发布任务已发布完成提醒]', msg, settings.EMAIL_HOST_USER,
+                send_mail('[运维发布中心][发布任务已发布完成提醒]', msg, settings.EMAIL_HOST_USER,
                           qa_email + pm_email + ops_email, fail_silently=False)
                 # 发送发布完成短信
-                sms_msg = u"""【发布中心】%s%s 已经成功上线, 请及时关注!""" % (publish_task.project, publish_task.version)
+                sms_msg = u"""【运维发布中心】%s%s 已经成功上线, 请及时关注!""" % (publish_task.project, publish_task.version)
                 sms_send(ops_sms + qa_sms + pm_sms, sms_msg)
 
             elif status == 5:
@@ -108,10 +107,10 @@ def publish_task_status_update(request):
                 qa_sms = [submit_user.phone]
                 pm_email = [apply_user.email]
                 pm_sms = [apply_user.phone]
-                send_mail('[发布中心][发布任务已驳回提醒]', msg, settings.EMAIL_HOST_USER,
+                send_mail('[运维发布中心][发布任务已驳回提醒]', msg, settings.EMAIL_HOST_USER,
                           [submit_user.email, apply_user.email], fail_silently=False)
                 # 发送驳回短信
-                sms_msg = u"""【发布中心】%s%s 已经驳回，请及时处理!""" % (publish_task.project, publish_task.version)
+                sms_msg = u"""【运维发布中心】%s%s 已经驳回，请及时处理!""" % (publish_task.project, publish_task.version)
                 sms_send(qa_sms + pm_sms, sms_msg)
         except Exception, e:
             print e

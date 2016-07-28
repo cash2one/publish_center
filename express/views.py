@@ -221,9 +221,9 @@ def publish_task_submit(request):
                         %s
                 """ % (apply_user.name,
                        detail_url)
-                send_mail('[发布中心][待审批发版提醒]', msg, settings.EMAIL_HOST_USER, [apply_user.email], fail_silently=False)
+                send_mail('[运维发布中心][待审批发版提醒]', msg, settings.EMAIL_HOST_USER, [apply_user.email], fail_silently=False)
                 # 发送审批短信
-                sms_msg = u"""【发布中心】你有新的发版审核，请及时处理！"""
+                sms_msg = u"""【运维发布中心】你有新的发版审核，请及时处理！"""
                 sms_send([apply_user.phone], sms_msg)
                 # 发送提交知会邮件
                 msg = u"""
@@ -243,7 +243,7 @@ def publish_task_submit(request):
                        apply_user.name,
                        detail_url)
                 email_submit = [request.user.email]
-                send_mail('[发布中心][发布任务已提交提醒]', msg, settings.EMAIL_HOST_USER, email_submit, fail_silently=False)
+                send_mail('[运维发布中心][发布任务已提交提醒]', msg, settings.EMAIL_HOST_USER, email_submit, fail_silently=False)
             elif publish_task.env == '2':
                 publish_task.approval_time = datetime.datetime.now()
                 publish_task.approval_by = request.user.username
@@ -373,9 +373,9 @@ def publish_task_apply(request):
                        publish_task.publish_time,
                        apply_user.name,
                        detail_url)
-            send_mail('[发布中心][待发版提醒]', msg, settings.EMAIL_HOST_USER, ops_email, fail_silently=False)
+            send_mail('[运维发布中心][待发版提醒]', msg, settings.EMAIL_HOST_USER, ops_email, fail_silently=False)
             # 发送发版短信
-            sms_msg = u"""【发布中心】你有新的发版申请，请及时处理！"""
+            sms_msg = u"""【运维发布中心】你有新的发版申请，请及时处理！"""
 
             sms_send(ops_sms, sms_msg)
             # 发送审批知会邮件
@@ -396,7 +396,7 @@ def publish_task_apply(request):
                        [i[1] for i in ENV if i[0] == int(publish_task.env)][0],
                        apply_user.name,
                        detail_url)
-            send_mail('[发布中心][发布任务已提交到运维平台提醒]', msg, settings.EMAIL_HOST_USER, [request.user.email], fail_silently=False)
+            send_mail('[运维发布中心][发布任务已提交到运维平台提醒]', msg, settings.EMAIL_HOST_USER, [request.user.email], fail_silently=False)
         except ServerError:
             pass
         except Exception as e:
