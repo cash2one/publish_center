@@ -62,8 +62,7 @@ def publish_task_status_update(request):
                 qa_sms = [submit_user.phone]
                 pm_email = [apply_user.email]
                 pm_sms = [apply_user.phone]
-                # team_users = api_call(settings.OPS_DOMAIN + settings.TEAM_USERS, {'name': '运维组'})
-                team_users = json.dumps({"msg": "", "users": [{"qq": "", "phone": "13880783454", "cnname": "\u674e\u65e5\u5f3a", "name": "liriqiang", "im": "", "role": false, "id": 3, "email": "riqiang@rrkd.cn"}, {"qq": "362854025", "phone": "13880740453", "cnname": "\u725f\u80b1", "name": "mougong", "im": "362854025", "role": false, "id": 4, "email": "mougong@rrkd.cn"}, {"qq": "", "phone": "18610686971", "cnname": "\u6797\u660e\u65ed", "name": "linmingxu", "im": "", "role": false, "id": 5, "email": "mingxu@rrkd.cn"}, {"qq": "", "phone": "17761294129", "cnname": "\u5f20\u946b", "name": "zhangxin", "im": "", "role": false, "id": 6, "email": "zhangxin@rrkd.cn"}, {"qq": "", "phone": "17708106353", "cnname": "\u90d1\u521a", "name": "zhenggang", "im": "", "role": false, "id": 7, "email": "zhenggang@rrkd.cn"}]})
+                team_users = api_call(settings.OPS_DOMAIN + settings.TEAM_USERS, {'name': '运维组'})
                 users = team_users.get('users')
                 ops_email = []
                 ops_sms = []
