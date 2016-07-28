@@ -176,3 +176,6 @@ SESSION_COOKIE_NAME = 'publish_center'
 
 OPS_DOMAIN = config.get('base', 'ops_domain')
 PUBLISH_TASK_CREATE = '/api/publish_task_create/'
+TEAM_USERS = '/team/users'
+
+SMS_INTERFACE = 'http://172.16.60.17:8071/sms_client_falcon.php'

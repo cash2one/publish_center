@@ -11,6 +11,7 @@ from publish_center.api import *
 from models import *
 from django.utils import timezone
 from account.models import User
+from publish_center.send import *
 
 
 import sys
@@ -221,7 +222,9 @@ def publish_task_submit(request):
                 """ % (apply_user.name,
                        detail_url)
                 send_mail('[发布中心][待审批发版提醒]', msg, settings.EMAIL_HOST_USER, [apply_user.email], fail_silently=False)
-
+                # 发送审批短信
+                sms_msg = u"""【发布中心】你有新的发版审核，请及时处理！"""
+                sms_send([apply_user.phone], sms_msg)
                 # 发送提交知会邮件
                 msg = u"""
                     Hi All,
@@ -239,7 +242,7 @@ def publish_task_submit(request):
                        [i[1] for i in ENV if i[0] == int(publish_task.env)][0],
                        apply_user.name,
                        detail_url)
-                email_submit = ['xiaoxiang@rrkd.cn', request.user.email]
+                email_submit = [request.user.email]
                 send_mail('[发布中心][发布任务已提交提醒]', msg, settings.EMAIL_HOST_USER, email_submit, fail_silently=False)
             elif publish_task.env == '2':
                 publish_task.approval_time = datetime.datetime.now()
@@ -345,16 +348,38 @@ def publish_task_apply(request):
             # 发送运维发布通知邮件
             detail_url = settings.OPS_DOMAIN + '/express/publish_task_list/'
             apply_user = get_object(User, name=publish_task.owner)
+            team_users = api_call(settings.OPS_DOMAIN + settings.TEAM_USERS, {'name': '运维组'})
+            users = team_users.get('users')
+            ops_email = []
+            ops_sms = []
+            for user in users:
+                ops_email.append(user.get('email'))
+                ops_sms.append(user.get('phone'))
             msg = u"""
                     Hi All,
                         发布中心有一条新的发布任务创建,请登陆运维系统操作发布
-                        %s
-                """ % (detail_url, )
-            ops_email = ['mougong@rrkd.cn', 'zhangxin@rrkd.cn', 'mingxu@rrkd.cn', 'zhenggang@rrkd.cn', 'riqiang@rrkd.cn']
-            # ops_email = ['riqiang@rrkd.cn']
-            send_mail('[发布中心][待发版提醒]', msg, settings.EMAIL_HOST_USER, ops_email, fail_silently=False)
+                        发布序列号: %s
+                        产品线: %s
+                        产品名称: %s
+                        版本: %s
+                        发布环境: %s
+                        计划发版时间: %s
+                        项目负责人: %s
 
+                    详情: %s
+                """ % (publish_task.seq_no, [i[1] for i in LINE if i[0] == int(publish_task.product)][0],
+                       publish_task.project, publish_task.version,
+                       [i[1] for i in ENV if i[0] == int(publish_task.env)][0],
+                       publish_task.publish_time,
+                       apply_user.name,
+                       detail_url)
+            send_mail('[发布中心][待发版提醒]', msg, settings.EMAIL_HOST_USER, ops_email, fail_silently=False)
+            # 发送发版短信
+            sms_msg = u"""【发布中心】你有新的发版申请，请及时处理！"""
+
+            sms_send(ops_sms, sms_msg)
             # 发送审批知会邮件
+            detail_url = settings.URL + '/express/publish_task_detail/?id=' + project_id
             msg = u"""
                     Hi All,
                         发布中心有一条新的发布任务被审核，已提交到运维平台等待发布
@@ -371,8 +396,7 @@ def publish_task_apply(request):
                        [i[1] for i in ENV if i[0] == int(publish_task.env)][0],
                        apply_user.name,
                        detail_url)
-            email_submit = ['3445345965@qq.com', request.user.email]
-            send_mail('[发布中心][发布任务已提交到运维平台提醒]', msg, settings.EMAIL_HOST_USER, email_submit, fail_silently=False)
+            send_mail('[发布中心][发布任务已提交到运维平台提醒]', msg, settings.EMAIL_HOST_USER, [request.user.email], fail_silently=False)
         except ServerError:
             pass
         except Exception as e:

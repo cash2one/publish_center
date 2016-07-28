@@ -269,6 +269,7 @@ def api_call(url, param={}, method='GET', headers={}):
     '''
     if isinstance(param, dict):
         param = urllib.urlencode(param)
+        print param
     try:
         if method == 'GET':
             req = urllib2.Request('%s?%s' % (url, param), headers=headers)

@@ -12,6 +12,7 @@ from account.models import User
 from django.views.decorators.csrf import csrf_exempt
 from publish_center.api import *
 from publish_center import settings
+from publish_center.send import *
 import sys
 default_encoding = 'utf-8'
 if sys.getdefaultencoding() != default_encoding:
@@ -57,12 +58,21 @@ def publish_task_status_update(request):
                        publish_task.update_remark,
                        detail_url)
                 submit_user = get_object(User, username=publish_task.submit_by)
-                email_qa = ['xiaoxiang@rrkd.cn', submit_user.email]
-                email_pm = [apply_user.email]
-                email_ops = ['mougong@rrkd.cn', 'zhangxin@rrkd.cn', 'mingxu@rrkd.cn', 'zhenggang@rrkd.cn',
-                             'riqiang@rrkd.cn']
+                qa_email = [submit_user.email]
+                pm_email = [apply_user.email]
+                team_users = api_call(settings.OPS_DOMAIN + settings.TEAM_USERS, {'name': '运维组'})
+                users = team_users.get('users')
+                ops_email = []
+                ops_sms = []
+                for user in users:
+                    ops_email.append(user.get('email'))
+                    ops_sms.append(user.get('phone'))
                 send_mail('[发布中心][发布任务已发布完成提醒]', msg, settings.EMAIL_HOST_USER,
-                          email_qa + email_pm + email_ops, fail_silently=False)
+                          qa_email + pm_email + ops_email, fail_silently=False)
+                # 发送发布完成短信
+                sms_msg = u"""【发布中心】%s%s 已经成功""" % (publish_task.project, publish_task.version)
+                sms_send(ops_sms, sms_msg)
+
             elif status == 5:
                 publish_task.status = 5
                 publish_task.save()
