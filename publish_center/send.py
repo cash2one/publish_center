@@ -19,7 +19,8 @@ def sms_send(mobiles, content):
             mobile	必须	手机号码
             content	必须	发送内容
     """
-    param = {'tos': mobiles, 'content': content}
-    logger.debug(param)
-    r = requests.post(settings.SMS_INTERFACE, data=param)
-    logger.debug(r.status_code)
+
+    for mobile in mobiles:
+        param = {'tos': mobile, 'content': content}
+        r = requests.post(settings.SMS_INTERFACE, data=param)
+        logger.debug(r.status_code)
