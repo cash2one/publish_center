@@ -60,6 +60,7 @@ def delpoy_publish(task_id):
     sms_send(ops_sms + qa_sms + pm_sms, sms_msg)
 
 
+
 @task()
 def trash_publish(task_id):
     publish_task = get_object(PublishTask, id=task_id)
