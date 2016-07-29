@@ -43,9 +43,9 @@ def delpoy_publish(task_id):
                    apply_user.name, publish_task.update_remark, detail_url)
     submit_user = get_object(User, username=publish_task.submit_by)
     qa_email = [submit_user.email]
-    qa_sms = [submit_user.phone]
+    qa_sms = [submit_user.phone] if apply_user.phone else []
     pm_email = [apply_user.email]
-    pm_sms = [apply_user.phone]
+    pm_sms = [apply_user.phone] if apply_user.phone else []
     team_users = api_call(settings.OPS_DOMAIN + settings.TEAM_USERS, {'name': '运维组'})
     users = team_users.get('users')
     ops_email = []
@@ -58,7 +58,6 @@ def delpoy_publish(task_id):
     # 发送发布完成短信
     sms_msg = u"""【运维发布中心】%s%s 已经成功上线, 请及时关注!""" % (publish_task.project, publish_task.version)
     sms_send(ops_sms + qa_sms + pm_sms, sms_msg)
-
 
 
 @task()
