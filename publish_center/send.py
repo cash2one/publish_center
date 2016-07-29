@@ -8,6 +8,7 @@
 """
 from publish_center.api import api_call
 from publish_center import settings
+from publish_center.api import *
 import requests
 
 
@@ -19,4 +20,6 @@ def sms_send(mobiles, content):
             content	必须	发送内容
     """
     param = {'tos': mobiles, 'content': content}
+    logger.debug(param)
     r = requests.post(settings.SMS_INTERFACE, data=param)
+    logger.debug(r.status_code)
