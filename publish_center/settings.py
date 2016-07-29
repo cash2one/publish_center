@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+
+import djcelery
+djcelery.setup_loader()
+
 import ConfigParser
 
 config = ConfigParser.ConfigParser()
@@ -79,6 +83,8 @@ INSTALLED_APPS = [
     'publish_center',
     'account',
     'express',
+    'djcelery',
+    'api',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -179,3 +185,8 @@ PUBLISH_TASK_CREATE = '/api/publish_task_create/'
 TEAM_USERS = '/team/users'
 
 SMS_INTERFACE = 'http://172.16.60.17:8071/sms_client_falcon.php'
+
+
+# celery configs
+BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'

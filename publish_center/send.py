@@ -18,5 +18,5 @@ def sms_send(mobiles, content):
             mobile	必须	手机号码
             content	必须	发送内容
     """
-    param = {'tos': ','.join(mobiles), 'content': content}
+    param = {'tos': mobiles, 'content': content}
     r = requests.post(settings.SMS_INTERFACE, data=param)
