@@ -15,6 +15,7 @@ from publish_center.api import *
 from account.models import User
 from django.contrib.auth.models import Group, Permission
 from express.models import *
+from appexpress.models import *
 
 register = template.Library()
 
@@ -207,5 +208,13 @@ def get_product_name(code):
 def get_status_name(code):
     try:
         return [i[1] for i in STATUS if i[0] == int(code)][0]
+    except:
+        return ''
+
+
+@register.filter(name='get_style_name')
+def get_style_name(code):
+    try:
+        return [i[1] for i in STYLE if i[0] == int(code)][0]
     except:
         return ''

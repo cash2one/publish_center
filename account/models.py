@@ -49,5 +49,11 @@ class Role(models.Model):
             ("perm_can_submit_publish_task", u"提交发布任务"),
             ("perm_can_apply_publish_task", u"审核发布任务"),
 
+            ("perm_can_view_app_express", u"APP发布"),
+
+            ("perm_can_view_app_publish_task", u"产看APP发布任务"),
+            ("perm_can_add_app_publish_task", u"新增APP发布任务"),
+            ("perm_can_change_app_publish_task", u"修改APP发布任务"),
+            ("perm_can_submit_app_publish_task", u"提交APP发布任务"),
         )
 

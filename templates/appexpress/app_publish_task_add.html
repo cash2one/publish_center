@@ -1,0 +1,288 @@
+{% extends 'base.html' %}
+{% load mytags %}
+
+{% block content %}
+    {% include 'nav_cat_bar.html' %}
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>填写基本信息</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="ibox-content">
+                        <form id="groupForm" enctype="multipart/form-data" method="post" class="form-horizontal" action="">
+                            {% csrf_token %}
+                            {% if error %}
+                                <div class="alert alert-warning text-center">{{ error }}</div>
+                            {% endif %}
+                            {% if msg %}
+                                <div class="alert alert-success text-center">{{ msg }}</div>
+                            {% endif %}
+                            <div class="form-group">
+                                <label for="style" class="col-sm-2 control-label">APP类型</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control input-sm" id="style" name="style">
+                                        {% for p in style_list %}
+                                            <option value="{{ p|list_0 }}">{{ p|list_1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="update_remark" class="col-sm-2 control-label">更新理由</label>
+                                <div class="col-sm-8">
+                                    <input id="update_remark" name="update_remark" placeholder="更新理由" type="text"
+                                           class="form-control" value="{{ update_remark }}">
+                                </div>
+                            </div>
+
+                        <div id="id_client_app">
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="client_apk_path" class="col-sm-2 control-label">APK</label>
+                                <div class="col-sm-8">
+                                    <input type="file" name="client_apk_path" id="client_apk_path" placeholder="APK文件" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="client_sys_AndroidPublishVersion" class="col-sm-2 control-label">sys_AndroidPublishVersion</label>
+                                <div class="col-sm-8">
+                                    <input id="client_sys_AndroidPublishVersion" name="client_sys_AndroidPublishVersion" placeholder="sys_AndroidPublishVersion" type="text" class="form-control" value="{{ client_sys_AndroidPublishVersion }}">
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="client_sys_IOSPublishVersion" class="col-sm-2 control-label">sys_IOSPublishVersion</label>
+                                <div class="col-sm-8">
+                                    <input id="client_sys_IOSPublishVersion" name="client_sys_IOSPublishVersion" placeholder="sys_IOSPublishVersion" type="text" class="form-control" value="{{ client_sys_IOSPublishVersion }}">
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="client_sys_isforcedupdate" class="col-sm-2 control-label">sys_isforcedupdate</label>
+                                <div class="col-sm-8">
+                                    <input id="client_sys_isforcedupdate" name="client_sys_isforcedupdate" placeholder="sys_isforcedupdate" type="text" class="form-control" value="{{ client_sys_isforcedupdate }}">
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="client_config_iossjversion" class="col-sm-2 control-label">config_iossjversion</label>
+                                <div class="col-sm-8">
+                                    <input id="client_config_iossjversion" name="client_config_iossjversion" placeholder="config_iossjversion" type="text" class="form-control" value="{{ client_config_iossjversion }}">
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="client_config_iosUpdateRemark" class="col-sm-2 control-label">config_iosUpdateRemark</label>
+                                <div class="col-sm-8">
+                                    <textarea id="client_config_iosUpdateRemark" name="client_config_iosUpdateRemark" class="form-control" rows="5" placeholder="">{{ client_config_iosUpdateRemark }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="client_config_androidversion" class="col-sm-2 control-label">config_androidversion</label>
+                                <div class="col-sm-8">
+                                    <input id="client_config_androidversion" name="client_config_androidversion" placeholder="config_androidversion" type="text" class="form-control" value="{{ client_config_androidversion }}">
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="client_config_androidsjversion" class="col-sm-2 control-label">client_config_androidsjversion</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="client_config_androidsjversion" id="client_config_androidsjversion" placeholder="config_androidsjversion" class="form-control" value="{{ client_config_androidsjversion }}"/>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="client_config_downloadandroidpath" class="col-sm-2 control-label">config_downloadandroidpath</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="client_config_downloadandroidpath" id="client_config_downloadandroidpath" placeholder="client_config_downloadandroidpath" class="form-control" value="{{ client_config_downloadandroidpath }}"/>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="client_config_androidverremark" class="col-sm-2 control-label">config_androidverremark</label>
+                                <div class="col-sm-8">
+                                    <textarea id="client_config_androidverremark" name="client_config_androidverremark" class="form-control" rows="5" placeholder="">{{ client_config_androidverremark }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="client_config_androidsUpdateRemark" class="col-sm-2 control-label">config_androidsUpdateRemark</label>
+                                <div class="col-sm-8">
+                                    <textarea id="client_config_androidsUpdateRemark" name="client_config_androidsUpdateRemark" class="form-control" rows="5" placeholder="">{{ client_config_androidsUpdateRemark }}</textarea>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="id_courier_app">
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="courier_apk_path" class="col-sm-2 control-label">APK</label>
+                                <div class="col-sm-8">
+                                    <input type="file" name="courier_apk_path" id="courier_apk_path" placeholder="APK文件" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="courier_sys_AndroidPublishVersion" class="col-sm-2 control-label">sys_AndroidPublishVersion</label>
+                                <div class="col-sm-8">
+                                    <input id="courier_sys_AndroidPublishVersion" name="courier_sys_AndroidPublishVersion" placeholder="sys_AndroidPublishVersion" type="text" class="form-control" value="{{ courier_sys_AndroidPublishVersion }}">
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="courier_sys_IOSPublishVersion" class="col-sm-2 control-label">sys_IOSPublishVersion</label>
+                                <div class="col-sm-8">
+                                    <input id="courier_sys_IOSPublishVersion" name="courier_sys_IOSPublishVersion" placeholder="sys_IOSPublishVersion" type="text" class="form-control" value="{{ courier_sys_IOSPublishVersion }}">
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="courier_sys_isforcedupdate" class="col-sm-2 control-label">sys_isforcedupdate</label>
+                                <div class="col-sm-8">
+                                    <input id="courier_sys_isforcedupdate" name="courier_sys_isforcedupdate" placeholder="sys_isforcedupdate" type="text" class="form-control" value="{{ courier_sys_isforcedupdate }}">
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="courier_config_iossjversion" class="col-sm-2 control-label">config_iossjversion</label>
+                                <div class="col-sm-8">
+                                    <input id="courier_config_iossjversion" name="courier_config_iossjversion" placeholder="config_iossjversion" type="text" class="form-control" value="{{ courier_config_iossjversion }}">
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="courier_config_iosUpdateRemark" class="col-sm-2 control-label">config_iosUpdateRemark</label>
+                                <div class="col-sm-8">
+                                    <textarea id="courier_config_iosUpdateRemark" name="courier_config_iosUpdateRemark" class="form-control" rows="5" placeholder="">{{ courier_config_iosUpdateRemark }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="courier_config_androidversion" class="col-sm-2 control-label">config_androidversion</label>
+                                <div class="col-sm-8">
+                                    <input id="courier_config_androidversion" name="courier_config_androidversion" placeholder="config_androidversion" type="text" class="form-control" value="{{ courier_config_androidversion }}">
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="courier_config_androidsjversion" class="col-sm-2 control-label">config_androidsjversion</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="courier_config_androidsjversion" id="courier_config_androidsjversion" placeholder="config_androidsjversion" class="form-control" value="{{ courier_config_androidsjversion }}"/>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="courier_config_downloadandroidpath" class="col-sm-2 control-label">config_downloadandroidpath</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="courier_config_downloadandroidpath" id="courier_config_downloadandroidpath" placeholder="config_downloadandroidpath" class="form-control" value="{{ courier_config_downloadandroidpath }}"/>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="courier_config_androidverremark" class="col-sm-2 control-label">config_androidverremark</label>
+                                <div class="col-sm-8">
+                                    <textarea id="courier_config_androidverremark" name="courier_config_androidverremark" class="form-control" rows="5" placeholder="">{{ courier_config_androidverremark }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="courier_config_androidsUpdateRemark" class="col-sm-2 control-label">config_androidsUpdateRemark</label>
+                                <div class="col-sm-8">
+                                    <textarea id="courier_config_androidsUpdateRemark" name="courier_config_androidsUpdateRemark" class="form-control" rows="5" placeholder="">{{ courier_config_androidsUpdateRemark }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-white" type="reset">取消</button>
+                                    <button id="submit_button" class="btn btn-primary" type="submit">创建</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block self_footer_js %}
+<script>
+$('#groupForm').validator({
+    timely: 2,
+    theme: "yellow_right_effect",
+    fields: {
+        "group_name": {
+            rule: "required",
+            tip: "用户输入组名",
+            ok: "",
+            msg: {required: "必须填写!"}
+        },
+        "group_type": {
+            rule: "checked",
+            tip: "选择组类型",
+            ok: "",
+            msg: {required: "至少选择一个组!"}
+        }
+    },
+    valid: function(form) {
+        form.submit();
+    }
+});
+
+
+$(document).ready(function(){
+    $("#submit_button").click(function(){
+        $('#permissions_selected option').each(function(){
+            $(this).prop('selected', true)
+        })
+    })
+})
+
+
+</script>
+{% endblock %}

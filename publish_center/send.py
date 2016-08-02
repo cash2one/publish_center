@@ -23,4 +23,4 @@ def sms_send(mobiles, content):
     for mobile in mobiles:
         param = {'tos': mobile, 'content': content}
         r = requests.post(settings.SMS_INTERFACE, data=param)
-        logger.debug(r.status_code)
+

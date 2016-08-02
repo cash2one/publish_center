@@ -105,10 +105,10 @@
 
                                 <td class="text-center">
                                     {% if perms.account.perm_can_change_publish_task %}
-                                    <a href="{% url 'publish_task_edit' %}?id={{ task.id }}" class="btn btn-xs btn-info {% if task.status != '1' %} disabled {% endif %}">编辑</a>
+                                    <a href="{% url 'publish_task_edit' %}?id={{ task.id }}" class="btn btn-xs btn-primary {% if task.status != '1' %} disabled {% endif %}">编辑</a>
                                     {% endif %}
                                     {% if perms.account.perm_can_submit_publish_task %}
-                                    <a href="{% url 'publish_task_submit' %}?id={{ task.id }}" class="btn btn-xs btn-info">提交</a>
+                                    <a href="{% url 'publish_task_submit' %}?id={{ task.id }}" class="btn btn-xs btn-success {% if task.status != '1' %} disabled {% endif %}">提交</a>
                                     {% endif %}
                                 </td>
                             </tr>

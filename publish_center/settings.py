@@ -80,10 +80,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
 
+    'djcelery',
     'publish_center',
     'account',
     'express',
-    'djcelery',
+    'appexpress',
     'api',
 ]
 
