@@ -16,14 +16,6 @@ STYLE = (
 )
 
 
-STATUS = (
-    (1, '未提交'),
-    (2, '已提交'),
-    (3, '已发布'),
-    (4, '已驳回'),
-)
-
-
 class AppPublishTask(models.Model):
     seq_no = models.CharField(u'发布序列号', max_length=50, unique=True)
     style = models.CharField(u'类型', max_length=100)
