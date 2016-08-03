@@ -44,9 +44,11 @@ def app_publish_task_add(request):
     header_title, path1, path2 = '创建APP更新任务', 'APP更新任务管理', '创建APP更新任务'
 
     style_list = list(STYLE)
+    platform_list = list(PLATFORM)
 
     if request.method == 'POST':
         style = request.POST.get('style', '')
+        version = request.POST.get('version', '')
         update_remark = request.POST.get('update_remark', '')
 
         client_sys_AndroidPublishVersion = request.POST.get('client_sys_AndroidPublishVersion', '')
@@ -101,6 +103,7 @@ def app_publish_task_add(request):
             create_time = datetime.datetime.now()
             AppPublishTask.objects.create(seq_no=seq_no,
                                           style=style,
+                                          version=version,
                                           client_apk_path=client_apk_path_name,
                                           client_sys_AndroidPublishVersion=client_sys_AndroidPublishVersion,
                                           client_sys_IOSPublishVersion=client_sys_IOSPublishVersion,
@@ -130,15 +133,22 @@ def app_publish_task_add(request):
             pass
         except Exception as e:
             print e
-            error = u'添加任务失败'
+            error = u'添加APP发布任务失败'
         else:
-            msg = u'添加任务 %s 成功' % seq_no
+            msg = u'添加APP发布任务 %s 成功' % seq_no
 
     return render_to_response('appexpress/app_publish_task_add.html', locals(), RequestContext(request))
 
 
 def app_publish_task_detail(request):
-    pass
+    header_title, path1, path2 = 'APP发布任务详情', 'APP发布任务管理', 'APP发布任务详情'
+    task_id = request.GET.get('id', '')
+    if not task_id:
+        return HttpResponseRedirect(reverse('app_publish_task_list'))
+    app_publish_task = get_object(AppPublishTask, id=task_id)
+    if not app_publish_task:
+        return HttpResponseRedirect(reverse('app_publish_task_list'))
+    return render_to_response('appexpress/app_publish_task_detail.html', locals(), RequestContext(request))
 
 
 def app_publish_task_edit(request):

@@ -16,9 +16,17 @@ STYLE = (
 )
 
 
+PLATFORM = (
+    (1, 'Android'),
+    (2, 'IOS'),
+)
+
+
 class AppPublishTask(models.Model):
     seq_no = models.CharField(u'发布序列号', max_length=50, unique=True)
     style = models.CharField(u'类型', max_length=100)
+    platform = models.CharField(u'平台', max_length=100)
+    version = models.CharField(u'版本号', max_length=100)
     update_remark = models.TextField(u'更新理由')
 
     client_apk_path = models.CharField(u'APK', max_length=1000, null=True)

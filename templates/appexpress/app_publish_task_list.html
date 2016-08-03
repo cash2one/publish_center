@@ -42,7 +42,8 @@
                             <tr>
                                 <th class="text-center">发布序列号</th>
                                 <th class="text-center">类型</th>
-                                <th class="text-center">更新理由</th>
+                                <th class="text-center">平台</th>
+                                <th class="text-center">版本</th>
                                 <th class="text-center">状态</th>
                                 <th class="text-center">操作</th>
                             </tr>
@@ -54,7 +55,13 @@
                                     <a href="{% url 'app_publish_task_detail' %}?id={{ task.id }}"> {{ task.seq_no }} </a>
                                 </td>
                                 <td class="text-center">
-                                    <a>{{ task.style|get_style_name }}</a>
+                                    {{ task.style|get_style_name }}
+                                </td>
+                                <td class="text-center">
+                                    {{ task.platform|get_platform_name }}
+                                </td>
+                                <td class="text-center">
+                                    {{ task.version }}
                                 </td>
                                 <td class="text-center">
                                     {{ task.status|get_status_name }}
