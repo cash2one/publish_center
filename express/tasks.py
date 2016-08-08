@@ -85,7 +85,7 @@ def ops_publish(task_id):
             """ % (publish_task.seq_no, [i[1] for i in LINE if i[0] == int(publish_task.product)][0],
                    publish_task.project, publish_task.version,
                    [i[1] for i in ENV if i[0] == int(publish_task.env)][0],
-                   publish_task.publish_time, apply_user.name, detail_url)
+                   publish_task.publish_time, apply_user.name if apply_user else '', detail_url)
     send_mail('[运维发布中心][待发版提醒]', msg, settings.EMAIL_HOST_USER, ops_email, fail_silently=False)
     # 发送发版短信
     sms_msg = u"""【运维发布中心】你有新的发版申请，请及时处理！"""

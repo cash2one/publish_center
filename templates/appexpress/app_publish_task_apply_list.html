@@ -9,7 +9,7 @@
             <div class="ibox float-e-margins">
 
                 <div class="ibox-title">
-                    <h5> 查看发布任务</h5>
+                    <h5> 查看APP发布任务</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -72,11 +72,8 @@
                                 </td>
 
                                 <td class="text-center">
-                                    {% if perms.account.perm_can_change_publish_task %}
-                                    <a href="{% url 'app_publish_task_edit' %}?id={{ task.id }}" class="btn btn-xs btn-primary {% if task.status != '1' %} disabled {% endif %}">编辑</a>
-                                    {% endif %}
-                                    {% if perms.account.perm_can_submit_publish_task %}
-                                    <a href="{% url 'app_publish_task_submit' %}?id={{ task.id }}" class="btn btn-xs btn-success {% if task.status != '1' %} disabled {% endif %}">提交</a>
+                                    {% if perms.account.perm_can_apply_app_publish_task %}
+                                    <a href="{% url 'app_publish_task_apply' %}?id={{ task.id }}" class="btn btn-xs btn-danger">审核</a>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -86,7 +83,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="dataTables_info" id="editable_info" role="status" aria-live="polite">
-                                Showing {{ publish_tasks.start_index }} to {{ publish_tasks.end_index }} of {{ p.count }} entries
+                                Showing {{ app_publish_tasks.start_index }} to {{ app_publish_tasks.end_index }} of {{ p.count }} entries
                             </div>
                         </div>
                         {% include 'paginator.html' %}
@@ -97,3 +94,4 @@
     </div>
 </div>
 {% endblock %}
+

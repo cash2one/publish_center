@@ -10,6 +10,7 @@
 from celery.task import task
 from publish_center.api import *
 from account.models import User
+from appexpress.models import *
 from express.models import *
 from publish_center import settings
 from publish_center.send import *
@@ -43,7 +44,7 @@ def delpoy_publish(task_id):
                    apply_user.name, publish_task.update_remark, detail_url)
     submit_user = get_object(User, username=publish_task.submit_by)
     qa_email = [submit_user.email]
-    qa_sms = [submit_user.phone] if apply_user.phone else []
+    qa_sms = [submit_user.phone] if submit_user.phone else []
     pm_email = [apply_user.email]
     pm_sms = [apply_user.phone] if apply_user.phone else []
     team_users = api_call(settings.OPS_DOMAIN + settings.TEAM_USERS, {'name': '运维组'})
@@ -91,4 +92,77 @@ def trash_publish(task_id):
               qa_email + pm_email, fail_silently=False)
     # 发送驳回短信
     sms_msg = u"""【运维发布中心】%s%s 已经驳回，请及时处理!""" % (publish_task.project, publish_task.version)
+    sms_send(qa_sms + pm_sms, sms_msg)
+
+
+@task()
+def deploy_app_publish(task_id):
+    # 发送发版完成提醒邮件
+    app_publish_task = get_object(AppPublishTask, id=task_id)
+    detail_url = settings.URL + '/express/publish_task_detail/?id=' + str(app_publish_task.id)
+    msg = u"""
+            Hi All,
+                发布中心有一条新的发布任务已完成发布，请验证线上服务
+                发布序列号: %s
+                APP类型: %s
+                平台: %s
+                版本: %s
+                项目负责人: %s
+                更新理由: %s
+            详情: %s
+            """ % (app_publish_task.seq_no, [i[1] for i in STYLE if i[0] == int(app_publish_task.style)][0],
+                   [i[1] for i in PLATFORM if i[0] == int(app_publish_task.platfrom)][0],
+                   app_publish_task.version, app_publish_task.owner,
+                   app_publish_task.update_remark, detail_url)
+    submit_user = get_object(User, username=app_publish_task.submit_by)
+    apply_user = get_object(User, name=app_publish_task.owner)
+    qa_email = [submit_user.email]
+    qa_sms = [submit_user.phone] if submit_user.phone else []
+    pm_email = [apply_user.email]
+    pm_sms = [apply_user.phone] if apply_user.phone else []
+    team_users = api_call(settings.OPS_DOMAIN + settings.TEAM_USERS, {'name': '运维组'})
+    users = team_users.get('users')
+    ops_email = []
+    ops_sms = []
+    for user in users:
+        ops_email.append(user.get('email'))
+        ops_sms.append(user.get('phone'))
+    send_mail('[运维发布中心][发布任务已发布完成提醒]', msg, settings.EMAIL_HOST_USER,
+              pm_email + qa_email + ops_email, fail_silently=False)
+    # 发送发布完成短信
+    sms_msg = u"""【运维发布中心】%s%s %s 已经成功上线, 请及时关注!""" % \
+              ([i[1] for i in STYLE if i[0] == int(app_publish_task.style)][0], app_publish_task.varsion,
+               [i[1] for i in PLATFORM if i[0] == int(app_publish_task.platfrom)][0])
+    sms_send(ops_sms + qa_sms + pm_sms, sms_msg)
+
+
+@task()
+def trash_app_publish(task_id):
+    app_publish_task = get_object(AppPublishTask, id=task_id)
+    detail_url = settings.URL + '/express/publish_task_detail/?id=' + str(app_publish_task.id)
+    # 发送驳回通知邮件
+    msg = u"""
+            Hi All,
+                发布中心有一条新的发布任务已驳回，请周知
+                发布序列号: %s
+                APP类型: %s
+                平台: %s
+                版本: %s
+                项目负责人: %s
+                更新理由: %s
+            详情: %s
+            """ % (app_publish_task.seq_no, [i[1] for i in STYLE if i[0] == int(app_publish_task.style)][0],
+                   [i[1] for i in PLATFORM if i[0] == int(app_publish_task.platform)][0],
+                   app_publish_task.version, app_publish_task.owner,
+                   app_publish_task.update_remark, detail_url)
+    submit_user = get_object(User, username=app_publish_task.submit_by)
+    qa_email = [submit_user.email]
+    qa_sms = [submit_user.phone]
+    pm_email = [apply_user.email]
+    pm_sms = [apply_user.phone]
+    send_mail('[运维发布中心][发布任务已驳回提醒]', msg, settings.EMAIL_HOST_USER,
+              qa_email + pm_email, fail_silently=False)
+    # 发送驳回短信
+    sms_msg = u"""【运维发布中心】%s%s 已经驳回，请及时处理!""" % \
+              ([i[1] for i in STYLE if i[0] == int(app_publish_task.style)][0], app_publish_task.version)
     sms_send(qa_sms + pm_sms, sms_msg)

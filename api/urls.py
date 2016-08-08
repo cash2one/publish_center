@@ -13,4 +13,5 @@ from api.views import *
 
 urlpatterns = [
     url(r'^publish_task_status_update/$', publish_task_status_update, name='publish_task_status_update'),
+    url(r'^app_publish_task_status_update/$', app_publish_task_status_update, name='app_publish_task_status_update'),
 ]

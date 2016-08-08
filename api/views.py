@@ -47,3 +47,33 @@ def publish_task_status_update(request):
     else:
         return JsonResponse({'msg': "not POST method.", 'code': 0})
     return JsonResponse({'msg': 'success', 'code': 1})
+
+
+@csrf_exempt
+def app_publish_task_status_update(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            print data
+            seq_no = data.get('seq_no')
+            status = data.get('status')
+            app_publish_task = AppPublishTask.objects.get(seq_no=seq_no)
+            if status == 4:
+                app_publish_task.status = 4
+                app_publish_task.deploy_time = data.get('deploy_time')
+                app_publish_task.deploy_by = data.get('deploy_by')
+                app_publish_task.save()
+                deploy_app_publish.delay(app_publish_task.id)
+            elif status == 5:
+                app_publish_task.status = 5
+                app_publish_task.save()
+            elif status == 6:
+                app_publish_task.status = 6
+                app_publish_task.save()
+                trash_app_publish.delay(app_publish_task.id)
+        except Exception, e:
+            print e
+            return JsonResponse({'msg': "parameter format invalid.", 'code': 0})
+    else:
+        return JsonResponse({'msg': "not POST method.", 'code': 0})
+    return JsonResponse({'msg': 'success', 'code': 1})

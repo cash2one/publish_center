@@ -12,8 +12,10 @@ from models import *
 from django.utils import timezone
 from account.models import User
 from publish_center.send import *
+from tasks import *
 
 
+@require_permission('account.perm_can_view_app_publish_task')
 def app_publish_task_list(request):
     """
     list publish task
@@ -34,6 +36,7 @@ def app_publish_task_list(request):
     return render_to_response('appexpress/app_publish_task_list.html', locals(), RequestContext(request))
 
 
+@require_permission('account.perm_can_add_app_publish_task')
 def app_publish_task_add(request):
     """
     publish task add view for route
@@ -49,6 +52,8 @@ def app_publish_task_add(request):
     if request.method == 'POST':
         style = request.POST.get('style', '')
         version = request.POST.get('version', '')
+        platform = request.POST.get('platform', '')
+        owner = request.POST.get('owner', '')
         update_remark = request.POST.get('update_remark', '')
 
         client_sys_AndroidPublishVersion = request.POST.get('client_sys_AndroidPublishVersion', '')
@@ -103,7 +108,10 @@ def app_publish_task_add(request):
             create_time = datetime.datetime.now()
             AppPublishTask.objects.create(seq_no=seq_no,
                                           style=style,
+                                          platform=platform,
+                                          owner=owner,
                                           version=version,
+                                          update_remark=update_remark,
                                           client_apk_path=client_apk_path_name,
                                           client_sys_AndroidPublishVersion=client_sys_AndroidPublishVersion,
                                           client_sys_IOSPublishVersion=client_sys_IOSPublishVersion,
@@ -140,6 +148,7 @@ def app_publish_task_add(request):
     return render_to_response('appexpress/app_publish_task_add.html', locals(), RequestContext(request))
 
 
+@require_permission('account.perm_can_view_app_publish_task')
 def app_publish_task_detail(request):
     header_title, path1, path2 = 'APP发布任务详情', 'APP发布任务管理', 'APP发布任务详情'
     task_id = request.GET.get('id', '')
@@ -151,9 +160,211 @@ def app_publish_task_detail(request):
     return render_to_response('appexpress/app_publish_task_detail.html', locals(), RequestContext(request))
 
 
+@require_permission('account.perm_can_edit_app_publish_task')
 def app_publish_task_edit(request):
-    pass
+    error = ''
+    msg = ''
+    header_title, path1, path2 = '编辑APP发布任务', 'APP发布任务管理', '编辑APP发布任务'
+
+    if request.method == 'GET':
+        task_id = request.GET.get('id', '')
+        style_list = list(STYLE)
+        platform_list = list(PLATFORM)
+        app_publish_task = get_object(AppPublishTask, id=task_id)
+
+    if request.method == 'POST':
+        task_id = request.POST.get('id', '')
+        style = request.POST.get('style', '')
+        version = request.POST.get('version', '')
+        platform = request.POST.get('platform', '')
+        owner = request.POST.get('owner', '')
+        update_remark = request.POST.get('update_remark', '')
+
+        client_sys_AndroidPublishVersion = request.POST.get('client_sys_AndroidPublishVersion', '')
+        client_sys_IOSPublishVersion = request.POST.get('client_sys_IOSPublishVersion', '')
+        client_sys_isforcedupdate = request.POST.get('client_sys_isforcedupdate', '')
+        client_config_iossjversion = request.POST.get('client_config_iossjversion', '')
+        client_config_iosUpdateRemark = request.POST.get('client_config_iosUpdateRemark', '')
+        client_config_androidversion = request.POST.get('client_config_androidversion', '')
+        client_config_androidsjversion = request.POST.get('client_config_androidsjversion', '')
+        client_config_downloadandroidpath = request.POST.get('client_config_downloadandroidpath', '')
+        client_config_androidverremark = request.POST.get('client_config_androidverremark', '')
+        client_config_androidsUpdateRemark = request.POST.get('client_config_androidsUpdateRemark', '')
+
+        courier_sys_AndroidPublishVersion = request.POST.get('courier_sys_AndroidPublishVersion', '')
+        courier_sys_IOSPublishVersion = request.POST.get('courier_sys_IOSPublishVersion', '')
+        courier_sys_isforcedupdate = request.POST.get('courier_sys_isforcedupdate', '')
+        courier_config_iossjversion = request.POST.get('courier_config_iossjversion', '')
+        courier_config_iosUpdateRemark = request.POST.get('courier_config_iosUpdateRemark', '')
+        courier_config_androidversion = request.POST.get('courier_config_androidversion', '')
+        courier_config_androidsjversion = request.POST.get('courier_config_androidsjversion', '')
+        courier_config_downloadandroidpath = request.POST.get('courier_config_downloadandroidpath', '')
+        courier_config_androidverremark = request.POST.get('courier_config_androidverremark', '')
+        courier_config_androidsUpdateRemark = request.POST.get('courier_config_androidsUpdateRemark', '')
+
+        if request.FILES:
+            if style == '1':
+                client_apk_path = request.FILES['client_apk_path']
+                client_apk_path_name = handle_uploaded_file(client_apk_path)
+                courier_apk_path_name = ''
+
+            elif style == '2':
+                courier_apk_path = request.FILES['courier_apk_path']
+                courier_apk_path_name = handle_uploaded_file(courier_apk_path)
+                client_apk_path_name = ''
+        else:
+            client_apk_path_name = ''
+            courier_apk_path_name = ''
+        try:
+            AppPublishTask.objects.filter(id=task_id).update(style=style,
+                                                             platform=platform,
+                                                             version=version,
+                                                             owner=owner,
+                                                             update_remark=update_remark,
+                                                             client_apk_path=client_apk_path_name,
+                                                             client_sys_AndroidPublishVersion=client_sys_AndroidPublishVersion,
+                                                             client_sys_IOSPublishVersion=client_sys_IOSPublishVersion,
+                                                             client_sys_isforcedupdate=client_sys_isforcedupdate,
+                                                             client_config_iossjversion=client_config_iossjversion,
+                                                             client_config_iosUpdateRemark=client_config_iosUpdateRemark,
+                                                             client_config_androidversion=client_config_androidversion,
+                                                             client_config_androidsjversion=client_config_androidsjversion,
+                                                             client_config_downloadandroidpath=client_config_downloadandroidpath,
+                                                             client_config_androidverremark=client_config_androidverremark,
+                                                             client_config_androidsUpdateRemark=client_config_androidsUpdateRemark,
+                                                             courier_apk_path=courier_apk_path_name,
+                                                             courier_sys_AndroidPublishVersion=courier_sys_AndroidPublishVersion,
+                                                             courier_sys_IOSPublishVersion=courier_sys_IOSPublishVersion,
+                                                             courier_sys_isforcedupdate=courier_sys_isforcedupdate,
+                                                             courier_config_iossjversion=courier_config_iossjversion,
+                                                             courier_config_iosUpdateRemark=courier_config_iosUpdateRemark,
+                                                             courier_config_androidversion=courier_config_androidversion,
+                                                             courier_config_androidsjversion=courier_config_androidsjversion,
+                                                             courier_config_downloadandroidpath=courier_config_downloadandroidpath,
+                                                             courier_config_androidverremark=courier_config_androidverremark,
+                                                             courier_config_androidsUpdateRemark=courier_config_androidsUpdateRemark,
+                                                             status=1)
+        except ServerError:
+            pass
+        except Exception as e:
+            print e
+            error = u'修改任务失败'
+        else:
+            msg = u'修改发布任务成功'
+
+    return render_to_response('appexpress/app_publish_task_edit.html', locals(), RequestContext(request))
 
 
+@require_permission('account.perm_can_submit_app_publish_task')
 def app_publish_task_submit(request):
-    pass
+    """
+    submit a publish task
+    提交发布任务
+    """
+    task_ids = request.GET.get('id', '')
+    task_id_list = task_ids.split(',')
+    for task_id in task_id_list:
+        app_publish_task = AppPublishTask.objects.get(id=task_id)
+        if app_publish_task.status == '1':
+            app_publish_task.submit_by = request.user.username
+            app_publish_task.submit_time = datetime.datetime.now()
+            app_publish_task.status = 2
+            app_publish_task.save()
+            # 发送审批提醒和提交知会邮件
+            sumbit_publish.delay(app_publish_task.id)
+    return HttpResponseRedirect(reverse('app_publish_task_list'))
+
+
+@require_permission('account.perm_can_apply_app_publish_task')
+def app_publish_task_apply_list(request):
+    """
+    list app publish task
+    发布APP任务列表
+    """
+    header_title, path1, path2 = '查看APP发布任务', 'APP发布任务管理', '查看APP发布任务'
+    keyword = request.GET.get('search', '')
+    app_publish_task_list = AppPublishTask.objects.all().order_by('-seq_no')
+    task_id = request.GET.get('id', '')
+
+    if keyword:
+        app_publish_task_list = app_publish_task_list.filter(name__icontains=keyword)
+
+    if task_id:
+        app_publish_task_list = app_publish_task_list.filter(id=int(task_id))
+
+    app_publish_task_list, p, app_publish_tasks, page_range, current_page, show_first, show_end = pages(app_publish_task_list, request)
+    return render_to_response('appexpress/app_publish_task_apply_list.html', locals(), RequestContext(request))
+
+
+@require_permission('account.perm_can_apply_app_publish_task')
+def app_publish_task_apply(request):
+    error = ''
+    msg = ''
+    header_title, path1, path2 = '审核APP发布任务', 'APP发布任务管理', '审核APP发布任务'
+
+    if request.method == 'GET':
+        task_id = request.GET.get('id', '')
+        style_list = list(STYLE)
+        platform_list = list(PLATFORM)
+        app_publish_task = get_object(AppPublishTask, id=task_id)
+
+    if request.method == 'POST':
+        project_id = request.POST.get('project_id', '')
+        publish_time = request.POST.get('publish_time', '')
+        try:
+            AppPublishTask.objects.filter(id=project_id).update(publish_time=publish_time, status=3,
+                                                                approval_time=datetime.datetime.now(),
+                                                                approval_by=request.user.username)
+            app_publish_task = get_object(AppPublishTask, id=project_id)
+            ctx = {"seq_no": app_publish_task.seq_no, "style": app_publish_task.style,
+                   "platform": app_publish_task.platform,
+                   "version": app_publish_task.version,
+                   "update_remark": app_publish_task.update_remark,
+                   "client_apk_path": app_publish_task.client_apk_path,
+                   "client_sys_AndroidPublishVersion": app_publish_task.client_sys_AndroidPublishVersion,
+                   "client_sys_IOSPublishVersion": app_publish_task.client_sys_IOSPublishVersion,
+                   "client_sys_isforcedupdate": app_publish_task.client_sys_isforcedupdate,
+                   "client_config_iossjversion": app_publish_task.client_config_iossjversion,
+                   "client_config_iosUpdateRemark": app_publish_task.client_config_iosUpdateRemark,
+                   "client_config_androidversion": app_publish_task.client_config_androidversion,
+                   "client_config_androidsjversion": app_publish_task.client_config_androidsjversion,
+                   "client_config_downloadandroidpath": app_publish_task.client_config_downloadandroidpath,
+                   "client_config_androidverremark": app_publish_task.client_config_androidverremark,
+                   "client_config_androidsUpdateRemark": app_publish_task.client_config_androidsUpdateRemark,
+                   "courier_apk_path": app_publish_task.courier_apk_path,
+                   "courier_sys_AndroidPublishVersion": app_publish_task.courier_sys_AndroidPublishVersion,
+                   "courier_sys_IOSPublishVersion": app_publish_task.courier_sys_IOSPublishVersion,
+                   "courier_sys_isforcedupdate": app_publish_task.courier_sys_isforcedupdate,
+                   "courier_config_iossjversion": app_publish_task.courier_config_iossjversion,
+                   "courier_config_iosUpdateRemark": app_publish_task.courier_config_iosUpdateRemark,
+                   "courier_config_androidversion": app_publish_task.courier_config_androidversion,
+                   "courier_config_androidsjversion": app_publish_task.courier_config_androidsjversion,
+                   "courier_config_downloadandroidpath": app_publish_task.courier_config_downloadandroidpath,
+                   "courier_config_androidverremark": app_publish_task.courier_config_androidverremark,
+                   "courier_config_androidsUpdateRemark": app_publish_task.courier_config_androidsUpdateRemark,
+                   "publish_time": app_publish_task.publish_time,
+                   "approval_time": app_publish_task.approval_time,
+                   "approval_by": app_publish_task.approval_by,
+                   "submit_time": app_publish_task.submit_time.strftime("%Y-%m-%d %H:%M:%S"),
+                   "submit_by": app_publish_task.submit_by,
+                   "status": app_publish_task.status,
+                   "create_time": app_publish_task.create_time.strftime("%Y-%m-%d %H:%M:%S"),
+                   "create_by": app_publish_task.create_by}
+            data = api_call('%s%s' % (settings.OPS_DOMAIN, settings.APP_PUBLISH_TASK_CREATE),
+                            json.dumps({"data": ctx}), 'POST', {'Content-Type': 'application/json'})
+            if data and data.get('code') == 0:
+                error = data.get('msg')
+            if not data:
+                error = u'无法打开目标网址,请联系系统开发人员!'
+            # 发送运维发布通知邮件及知会邮件
+            app_publish.delay(app_publish_task.id)
+        except ServerError:
+            pass
+        except Exception as e:
+            print e
+            error = u'审核任务失败'
+        else:
+            msg = u'已完成审核，同时APP发布任务已通知运维平台！'
+            return HttpResponseRedirect(reverse('app_publish_task_apply_list'))
+
+    return render_to_response('appexpress/app_publish_task_apply.html', locals(), RequestContext(request))

@@ -27,6 +27,7 @@ class AppPublishTask(models.Model):
     style = models.CharField(u'类型', max_length=100)
     platform = models.CharField(u'平台', max_length=100)
     version = models.CharField(u'版本号', max_length=100)
+    owner = models.CharField(u'项目负责人', max_length=100)
     update_remark = models.TextField(u'更新理由')
 
     client_apk_path = models.CharField(u'APK', max_length=1000, null=True)
@@ -53,6 +54,9 @@ class AppPublishTask(models.Model):
     courier_config_androidverremark = models.TextField(null=True)
     courier_config_androidsUpdateRemark = models.TextField(null=True)
 
+    approval_time = models.DateTimeField(u'审核时间', null=True)
+    approval_by = models.CharField(u'审核人', max_length=100, null=True)
+    publish_time = models.CharField(u'计划发版时间', max_length=50, null=True)
     submit_time = models.DateTimeField(u'提交时间', null=True)
     submit_by = models.CharField(u'提交人', max_length=100, null=True)
     deploy_time = models.DateTimeField(u'发布时间', null=True)

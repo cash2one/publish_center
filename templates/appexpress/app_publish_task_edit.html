@@ -36,7 +36,11 @@
                                 <div class="col-sm-8">
                                     <select class="form-control input-sm" id="style" name="style" onchange="change_div()">
                                         {% for p in style_list %}
-                                            <option value="{{ p|list_0 }}">{{ p|list_1 }}</option>
+                                            {% if p|list_0 == app_publish_task.style %}
+                                                <option value="{{ p|list_0 }}" selected>{{ p|list_1 }}</option>
+                                            {% else %}
+                                                <option value="{{ p|list_0 }}">{{ p|list_1 }}</option>
+                                            {% endif %}
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -47,7 +51,11 @@
                                 <div class="col-sm-8">
                                     <select class="form-control input-sm" id="platform" name="platform" onchange="change_div()">
                                         {% for l in platform_list %}
-                                            <option value="{{ l|list_0 }}">{{ l|list_1 }}</option>
+                                            {% if l|list_0 == app_publish_task.platform %}
+                                                <option value="{{ l|list_0 }}" selected>{{ l|list_1 }}</option>
+                                            {% else %}
+                                                <option value="{{ l|list_0 }}">{{ l|list_1 }}</option>
+                                            {% endif %}
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -57,8 +65,9 @@
                             <div class="form-group">
                                 <label for="version" class="col-sm-2 control-label">版本</label>
                                 <div class="col-sm-8">
+                                     <input id="task_id" name="task_id" type="text" class="form-control" value="{{ app_publish_task.id }}" style="display: none">
                                      <input id="version" name="version" placeholder="" type="text"
-                                           class="form-control" value="{{ version }}">
+                                           class="form-control" value="{{ app_publish_task.version }}">
                                 </div>
                             </div>
 
@@ -69,13 +78,12 @@
                                     <input id="owner" name="owner" type="text" class="form-control" value="{{ app_publish_task.owner }}">
                                 </div>
                             </div>
-                            
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <label for="update_remark" class="col-sm-2 control-label">更新理由</label>
                                 <div class="col-sm-8">
                                      <textarea id="update_remark" name="update_remark" placeholder="更新理由" type="text"
-                                           class="form-control" >{{ update_remark }}</textarea>
+                                           class="form-control" >{{ app_publish_task.update_remark }}</textarea>
                                 </div>
                             </div>
                         <div id="id_client_android">
@@ -91,7 +99,7 @@
                             <div class="form-group">
                                 <label for="client_sys_AndroidPublishVersion" class="col-sm-2 control-label">AndroidPublishVersion</label>
                                 <div class="col-sm-8">
-                                    <input id="client_sys_AndroidPublishVersion" name="client_sys_AndroidPublishVersion" placeholder="" type="text" class="form-control" value="{{ client_sys_AndroidPublishVersion }}">
+                                    <input id="client_sys_AndroidPublishVersion" name="client_sys_AndroidPublishVersion" placeholder="" type="text" class="form-control" value="{{ app_publish_task.client_sys_AndroidPublishVersion }}">
                                 </div>
                             </div>
 
@@ -99,7 +107,7 @@
                             <div class="form-group">
                                 <label for="client_sys_isforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
                                 <div class="col-sm-8">
-                                    <input id="client_sys_isforcedupdate" name="client_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ client_sys_isforcedupdate }}">
+                                    <input id="client_sys_isforcedupdate" name="client_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ app_publish_task.client_sys_isforcedupdate }}">
                                 </div>
                             </div>
 
@@ -107,7 +115,7 @@
                             <div class="form-group">
                                 <label for="client_config_androidversion" class="col-sm-2 control-label">androidversion</label>
                                 <div class="col-sm-8">
-                                    <input id="client_config_androidversion" name="client_config_androidversion" placeholder="" type="text" class="form-control" value="{{ client_config_androidversion }}">
+                                    <input id="client_config_androidversion" name="client_config_androidversion" placeholder="" type="text" class="form-control" value="{{ app_publish_task.client_config_androidversion }}">
                                 </div>
                             </div>
 
@@ -115,7 +123,7 @@
                             <div class="form-group">
                                 <label for="client_config_androidsjversion" class="col-sm-2 control-label">androidsjversion</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="client_config_androidsjversion" id="client_config_androidsjversion" placeholder="" class="form-control" value="{{ client_config_androidsjversion }}"/>
+                                    <input type="text" name="client_config_androidsjversion" id="client_config_androidsjversion" placeholder="" class="form-control" value="{{ app_publish_task.client_config_androidsjversion }}"/>
                                 </div>
                             </div>
 
@@ -123,7 +131,7 @@
                             <div class="form-group">
                                 <label for="client_config_downloadandroidpath" class="col-sm-2 control-label">downloadandroidpath</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="client_config_downloadandroidpath" id="client_config_downloadandroidpath" placeholder="" class="form-control" value="{{ client_config_downloadandroidpath }}"/>
+                                    <input type="text" name="client_config_downloadandroidpath" id="client_config_downloadandroidpath" placeholder="" class="form-control" value="{{ app_publish_task.client_config_downloadandroidpath }}"/>
                                 </div>
                             </div>
 
@@ -131,7 +139,7 @@
                             <div class="form-group">
                                 <label for="client_config_androidverremark" class="col-sm-2 control-label">androidverremark</label>
                                 <div class="col-sm-8">
-                                    <textarea id="client_config_androidverremark" name="client_config_androidverremark" class="form-control" rows="5" placeholder="">{{ client_config_androidverremark }}</textarea>
+                                    <textarea id="client_config_androidverremark" name="client_config_androidverremark" class="form-control" rows="5" placeholder="">{{ app_publish_task.client_config_androidverremark }}</textarea>
                                 </div>
                             </div>
 
@@ -139,7 +147,7 @@
                             <div class="form-group">
                                 <label for="client_config_androidsUpdateRemark" class="col-sm-2 control-label">androidsUpdateRemark</label>
                                 <div class="col-sm-8">
-                                    <textarea id="client_config_androidsUpdateRemark" name="client_config_androidsUpdateRemark" class="form-control" rows="5" placeholder="">{{ client_config_androidsUpdateRemark }}</textarea>
+                                    <textarea id="client_config_androidsUpdateRemark" name="client_config_androidsUpdateRemark" class="form-control" rows="5" placeholder="">{{ app_publish_task.client_config_androidsUpdateRemark }}</textarea>
                                 </div>
                             </div>
 
@@ -152,7 +160,7 @@
                             <div class="form-group">
                                 <label for="client_sys_IOSPublishVersion" class="col-sm-2 control-label">IOSPublishVersion</label>
                                 <div class="col-sm-8">
-                                    <input id="client_sys_IOSPublishVersion" name="client_sys_IOSPublishVersion" placeholder="" type="text" class="form-control" value="{{ client_sys_IOSPublishVersion }}">
+                                    <input id="client_sys_IOSPublishVersion" name="client_sys_IOSPublishVersion" placeholder="" type="text" class="form-control" value="{{ app_publish_task.client_sys_IOSPublishVersion }}">
                                 </div>
                             </div>
 
@@ -160,7 +168,7 @@
                             <div class="form-group">
                                 <label for="client_sys_isforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
                                 <div class="col-sm-8">
-                                    <input id="client_sys_isforcedupdate" name="client_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ client_sys_isforcedupdate }}">
+                                    <input id="client_sys_isforcedupdate" name="client_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ app_publish_task.client_sys_isforcedupdate }}">
                                 </div>
                             </div>
 
@@ -168,7 +176,7 @@
                             <div class="form-group">
                                 <label for="client_config_iossjversion" class="col-sm-2 control-label">iossjversion</label>
                                 <div class="col-sm-8">
-                                    <input id="client_config_iossjversion" name="client_config_iossjversion" placeholder="" type="text" class="form-control" value="{{ client_config_iossjversion }}">
+                                    <input id="client_config_iossjversion" name="client_config_iossjversion" placeholder="" type="text" class="form-control" value="{{ app_publish_task.client_config_iossjversion }}">
                                 </div>
                             </div>
 
@@ -176,7 +184,7 @@
                             <div class="form-group">
                                 <label for="client_config_iosUpdateRemark" class="col-sm-2 control-label">iosUpdateRemark</label>
                                 <div class="col-sm-8">
-                                    <textarea id="client_config_iosUpdateRemark" name="client_config_iosUpdateRemark" class="form-control" rows="5" placeholder="">{{ client_config_iosUpdateRemark }}</textarea>
+                                    <textarea id="client_config_iosUpdateRemark" name="client_config_iosUpdateRemark" class="form-control" rows="5" placeholder="">{{ app_publish_task.client_config_iosUpdateRemark }}</textarea>
                                 </div>
                             </div>
 
@@ -195,7 +203,7 @@
                             <div class="form-group">
                                 <label for="courier_sys_AndroidPublishVersion" class="col-sm-2 control-label">AndroidPublishVersion</label>
                                 <div class="col-sm-8">
-                                    <input id="courier_sys_AndroidPublishVersion" name="courier_sys_AndroidPublishVersion" placeholder="" type="text" class="form-control" value="{{ courier_sys_AndroidPublishVersion }}">
+                                    <input id="courier_sys_AndroidPublishVersion" name="courier_sys_AndroidPublishVersion" placeholder="" type="text" class="form-control" value="{{ app_publish_task.courier_sys_AndroidPublishVersion }}">
                                 </div>
                             </div>
 
@@ -203,7 +211,7 @@
                             <div class="form-group">
                                 <label for="courier_sys_isforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
                                 <div class="col-sm-8">
-                                    <input id="courier_sys_isforcedupdate" name="courier_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ courier_sys_isforcedupdate }}">
+                                    <input id="courier_sys_isforcedupdate" name="courier_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ app_publish_task.courier_sys_isforcedupdate }}">
                                 </div>
                             </div>
 
@@ -211,7 +219,7 @@
                             <div class="form-group">
                                 <label for="courier_config_androidversion" class="col-sm-2 control-label">androidversion</label>
                                 <div class="col-sm-8">
-                                    <input id="courier_config_androidversion" name="courier_config_androidversion" placeholder="" type="text" class="form-control" value="{{ courier_config_androidversion }}">
+                                    <input id="courier_config_androidversion" name="courier_config_androidversion" placeholder="" type="text" class="form-control" value="{{ app_publish_task.courier_config_androidversion }}">
                                 </div>
                             </div>
 
@@ -219,7 +227,7 @@
                             <div class="form-group">
                                 <label for="courier_config_androidsjversion" class="col-sm-2 control-label">androidsjversion</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="courier_config_androidsjversion" id="courier_config_androidsjversion" placeholder="" class="form-control" value="{{ courier_config_androidsjversion }}"/>
+                                    <input type="text" name="courier_config_androidsjversion" id="courier_config_androidsjversion" placeholder="" class="form-control" value="{{ app_publish_task.courier_config_androidsjversion }}"/>
                                 </div>
                             </div>
 
@@ -227,7 +235,7 @@
                             <div class="form-group">
                                 <label for="courier_config_downloadandroidpath" class="col-sm-2 control-label">downloadandroidpath</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="courier_config_downloadandroidpath" id="courier_config_downloadandroidpath" placeholder="" class="form-control" value="{{ courier_config_downloadandroidpath }}"/>
+                                    <input type="text" name="courier_config_downloadandroidpath" id="courier_config_downloadandroidpath" placeholder="" class="form-control" value="{{ app_publish_task.courier_config_downloadandroidpath }}"/>
                                 </div>
                             </div>
 
@@ -235,7 +243,7 @@
                             <div class="form-group">
                                 <label for="courier_config_androidverremark" class="col-sm-2 control-label">androidverremark</label>
                                 <div class="col-sm-8">
-                                    <textarea id="courier_config_androidverremark" name="courier_config_androidverremark" class="form-control" rows="5" placeholder="">{{ courier_config_androidverremark }}</textarea>
+                                    <textarea id="courier_config_androidverremark" name="courier_config_androidverremark" class="form-control" rows="5" placeholder="">{{ app_publish_task.courier_config_androidverremark }}</textarea>
                                 </div>
                             </div>
 
@@ -243,7 +251,7 @@
                             <div class="form-group">
                                 <label for="courier_config_androidsUpdateRemark" class="col-sm-2 control-label">androidsUpdateRemark</label>
                                 <div class="col-sm-8">
-                                    <textarea id="courier_config_androidsUpdateRemark" name="courier_config_androidsUpdateRemark" class="form-control" rows="5" placeholder="">{{ courier_config_androidsUpdateRemark }}</textarea>
+                                    <textarea id="courier_config_androidsUpdateRemark" name="courier_config_androidsUpdateRemark" class="form-control" rows="5" placeholder="">{{ app_publish_task.courier_config_androidsUpdateRemark }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -253,14 +261,14 @@
                             <div class="form-group">
                                 <label for="courier_sys_IOSPublishVersion" class="col-sm-2 control-label">IOSPublishVersion</label>
                                 <div class="col-sm-8">
-                                    <input id="courier_sys_IOSPublishVersion" name="courier_sys_IOSPublishVersion" placeholder="" type="text" class="form-control" value="{{ courier_sys_IOSPublishVersion }}">
+                                    <input id="courier_sys_IOSPublishVersion" name="courier_sys_IOSPublishVersion" placeholder="" type="text" class="form-control" value="{{ app_publish_task.courier_sys_IOSPublishVersion }}">
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <label for="courier_sys_isforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
                                 <div class="col-sm-8">
-                                    <input id="courier_sys_isforcedupdate" name="courier_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ courier_sys_isforcedupdate }}">
+                                    <input id="courier_sys_isforcedupdate" name="courier_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ app_publish_task.courier_sys_isforcedupdate }}">
                                 </div>
                             </div>
 
@@ -268,7 +276,7 @@
                             <div class="form-group">
                                 <label for="courier_config_iossjversion" class="col-sm-2 control-label">iossjversion</label>
                                 <div class="col-sm-8">
-                                    <input id="courier_config_iossjversion" name="courier_config_iossjversion" placeholder="" type="text" class="form-control" value="{{ courier_config_iossjversion }}">
+                                    <input id="courier_config_iossjversion" name="courier_config_iossjversion" placeholder="" type="text" class="form-control" value="{{ app_publish_task.courier_config_iossjversion }}">
                                 </div>
                             </div>
 
@@ -276,7 +284,7 @@
                             <div class="form-group">
                                 <label for="courier_config_iosUpdateRemark" class="col-sm-2 control-label">iosUpdateRemark</label>
                                 <div class="col-sm-8">
-                                    <textarea id="courier_config_iosUpdateRemark" name="courier_config_iosUpdateRemark" class="form-control" rows="5" placeholder="">{{ courier_config_iosUpdateRemark }}</textarea>
+                                    <textarea id="courier_config_iosUpdateRemark" name="courier_config_iosUpdateRemark" class="form-control" rows="5" placeholder="">{{ app_publish_task.courier_config_iosUpdateRemark }}</textarea>
                                 </div>
                             </div>
 
@@ -286,11 +294,9 @@
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-2">
                                     <button class="btn btn-white" type="reset">取消</button>
-                                    <button id="submit_button" class="btn btn-primary" type="submit">创建</button>
+                                    <button id="submit_button" class="btn btn-primary" type="submit">确认保存</button>
                                 </div>
                             </div>
-
-
                         </form>
                     </div>
                 </div>
@@ -340,11 +346,8 @@ $(document).ready(function(){
             $(this).prop('selected', true)
         })
     });
-    $('#id_client_android').show();
-    $('#id_client_ios').hide();
-    $('#id_courier_android').hide();
-    $('#id_courier_ios').hide();
 
+    change_div();
 })
 
 
