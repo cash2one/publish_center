@@ -102,7 +102,7 @@ def deploy_app_publish(task_id):
     detail_url = settings.URL + '/express/publish_task_detail/?id=' + str(app_publish_task.id)
     msg = u"""
             Hi All,
-                发布中心有一条新的发布任务已完成发布，请验证线上服务
+                发布中心有一条新的APP发布任务已完成发布，请验证线上服务
                 发布序列号: %s
                 APP类型: %s
                 平台: %s
@@ -143,7 +143,7 @@ def trash_app_publish(task_id):
     # 发送驳回通知邮件
     msg = u"""
             Hi All,
-                发布中心有一条新的发布任务已驳回，请周知
+                发布中心有一条新的APP发布任务已驳回，请周知
                 发布序列号: %s
                 APP类型: %s
                 平台: %s
@@ -156,11 +156,12 @@ def trash_app_publish(task_id):
                    app_publish_task.version, app_publish_task.owner,
                    app_publish_task.update_remark, detail_url)
     submit_user = get_object(User, username=app_publish_task.submit_by)
+    apply_user = get_object(User, name=app_publish_task.owner)
     qa_email = [submit_user.email]
     qa_sms = [submit_user.phone]
     pm_email = [apply_user.email]
     pm_sms = [apply_user.phone]
-    send_mail('[运维发布中心][发布任务已驳回提醒]', msg, settings.EMAIL_HOST_USER,
+    send_mail('[运维发布中心][APP发布任务已驳回提醒]', msg, settings.EMAIL_HOST_USER,
               qa_email + pm_email, fail_silently=False)
     # 发送驳回短信
     sms_msg = u"""【运维发布中心】%s%s 已经驳回，请及时处理!""" % \
