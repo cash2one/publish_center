@@ -31,10 +31,28 @@
                             {% if msg %}
                                 <div class="alert alert-success text-center">{{ msg }}</div>
                             {% endif %}
+
+                            <div class="form-group">
+                                <label for="env" class="col-sm-2 control-label">环境类型</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="env" name="env">
+                                        {% for l in env_list %}
+                                            {% if l|list_0 == app_publish_task.env %}
+                                                <option value="{{ l|list_0 }}" selected>{{ l|list_1 }}</option>
+                                            {% else %}
+                                                <option value="{{ l|list_0 }}">{{ l|list_1 }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <label for="style" class="col-sm-2 control-label">APP类型</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control input-sm" id="style" name="style" onchange="change_div()">
+                                    <select class="form-control " id="style" name="style" onchange="change_div()">
                                         {% for p in style_list %}
                                             {% if p|list_0 == app_publish_task.style %}
                                                 <option value="{{ p|list_0 }}" selected>{{ p|list_1 }}</option>
@@ -49,7 +67,7 @@
                             <div class="form-group">
                                 <label for="platform" class="col-sm-2 control-label">平台</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control input-sm" id="platform" name="platform" onchange="change_div()">
+                                    <select class="form-control " id="platform" name="platform" onchange="change_div()">
                                         {% for l in platform_list %}
                                             {% if l|list_0 == app_publish_task.platform %}
                                                 <option value="{{ l|list_0 }}" selected>{{ l|list_1 }}</option>
@@ -75,7 +93,15 @@
                             <div class="form-group">
                                 <label for="owner" class="col-sm-2 control-label">项目负责人</label>
                                 <div class="col-sm-8">
-                                    <input id="owner" name="owner" type="text" class="form-control" value="{{ app_publish_task.owner }}">
+                                    <select class="form-control " id="owner" name="owner">
+                                        {% for p in pm_list %}
+                                            {% if p == app_publish_task.owner %}
+                                                <option value="{{ p }} " selected="selected">{{ p }}</option>
+                                            {% else %}
+                                                <option value="{{ p }}">{{ p }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
@@ -105,9 +131,9 @@
 
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                                <label for="client_sys_isforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
+                                <label for="client_sys_Androidisforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
                                 <div class="col-sm-8">
-                                    <input id="client_sys_isforcedupdate" name="client_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ app_publish_task.client_sys_isforcedupdate }}">
+                                    <input id="client_sys_Androidisforcedupdate" name="client_sys_Androidisforcedupdate" placeholder="" type="text" class="form-control" value="{{ app_publish_task.client_sys_Androidisforcedupdate }}">
                                 </div>
                             </div>
 
@@ -127,13 +153,13 @@
                                 </div>
                             </div>
 
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                                <label for="client_config_downloadandroidpath" class="col-sm-2 control-label">downloadandroidpath</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="client_config_downloadandroidpath" id="client_config_downloadandroidpath" placeholder="" class="form-control" value="{{ app_publish_task.client_config_downloadandroidpath }}"/>
-                                </div>
-                            </div>
+{#                            <div class="hr-line-dashed"></div>#}
+{#                            <div class="form-group">#}
+{#                                <label for="client_config_downloadandroidpath" class="col-sm-2 control-label">downloadandroidpath</label>#}
+{#                                <div class="col-sm-8">#}
+{#                                    <input type="text" name="client_config_downloadandroidpath" id="client_config_downloadandroidpath" placeholder="" class="form-control" value="{{ app_publish_task.client_config_downloadandroidpath }}"/>#}
+{#                                </div>#}
+{#                            </div>#}
 
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
@@ -166,9 +192,9 @@
 
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                                <label for="client_sys_isforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
+                                <label for="client_sys_IOSisforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
                                 <div class="col-sm-8">
-                                    <input id="client_sys_isforcedupdate" name="client_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ app_publish_task.client_sys_isforcedupdate }}">
+                                    <input id="client_sys_IOSisforcedupdate" name="client_sys_IOSisforcedupdate" placeholder="" type="text" class="form-control" value="{{ app_publish_task.client_sys_IOSisforcedupdate }}">
                                 </div>
                             </div>
 
@@ -185,6 +211,14 @@
                                 <label for="client_config_iosUpdateRemark" class="col-sm-2 control-label">iosUpdateRemark</label>
                                 <div class="col-sm-8">
                                     <textarea id="client_config_iosUpdateRemark" name="client_config_iosUpdateRemark" class="form-control" rows="5" placeholder="">{{ app_publish_task.client_config_iosUpdateRemark }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="client_config_iosverremark" class="col-sm-2 control-label">iosverremark</label>
+                                <div class="col-sm-8">
+                                    <textarea id="client_config_iosverremark" name="client_config_iosverremark" class="form-control" rows="5">{{ app_publish_task.client_config_iosverremark }}</textarea>
                                 </div>
                             </div>
 
@@ -209,9 +243,9 @@
 
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                                <label for="courier_sys_isforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
+                                <label for="courier_sys_Androidisforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
                                 <div class="col-sm-8">
-                                    <input id="courier_sys_isforcedupdate" name="courier_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ app_publish_task.courier_sys_isforcedupdate }}">
+                                    <input id="courier_sys_Androidisforcedupdate" name="courier_sys_Androidisforcedupdate" placeholder="" type="text" class="form-control" value="{{ app_publish_task.courier_sys_Androidisforcedupdate }}">
                                 </div>
                             </div>
 
@@ -231,13 +265,13 @@
                                 </div>
                             </div>
 
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                                <label for="courier_config_downloadandroidpath" class="col-sm-2 control-label">downloadandroidpath</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="courier_config_downloadandroidpath" id="courier_config_downloadandroidpath" placeholder="" class="form-control" value="{{ app_publish_task.courier_config_downloadandroidpath }}"/>
-                                </div>
-                            </div>
+{#                            <div class="hr-line-dashed"></div>#}
+{#                            <div class="form-group">#}
+{#                                <label for="courier_config_downloadandroidpath" class="col-sm-2 control-label">downloadandroidpath</label>#}
+{#                                <div class="col-sm-8">#}
+{#                                    <input type="text" name="courier_config_downloadandroidpath" id="courier_config_downloadandroidpath" placeholder="" class="form-control" value="{{ app_publish_task.courier_config_downloadandroidpath }}"/>#}
+{#                                </div>#}
+{#                            </div>#}
 
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
@@ -266,9 +300,9 @@
                             </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                                <label for="courier_sys_isforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
+                                <label for="courier_sys_IOSisforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
                                 <div class="col-sm-8">
-                                    <input id="courier_sys_isforcedupdate" name="courier_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ app_publish_task.courier_sys_isforcedupdate }}">
+                                    <input id="courier_sys_IOSisforcedupdate" name="courier_sys_IOSisforcedupdate" placeholder="" type="text" class="form-control" value="{{ app_publish_task.courier_sys_IOSisforcedupdate }}">
                                 </div>
                             </div>
 
@@ -285,6 +319,14 @@
                                 <label for="courier_config_iosUpdateRemark" class="col-sm-2 control-label">iosUpdateRemark</label>
                                 <div class="col-sm-8">
                                     <textarea id="courier_config_iosUpdateRemark" name="courier_config_iosUpdateRemark" class="form-control" rows="5" placeholder="">{{ app_publish_task.courier_config_iosUpdateRemark }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="courier_config_iosverremark" class="col-sm-2 control-label">iosverremark</label>
+                                <div class="col-sm-8">
+                                    <textarea id="courier_config_iosverremark" name="courier_config_iosverremark" class="form-control" rows="5">{{ app_publish_task.courier_config_iosverremark }}</textarea>
                                 </div>
                             </div>
 

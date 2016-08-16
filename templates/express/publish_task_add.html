@@ -34,7 +34,7 @@
                             <div class="form-group">
                                 <label for="product" class="col-sm-2 control-label">产品线</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control input-sm" id="product" name="product">
+                                    <select class="form-control" id="product" name="product" onchange="product_change()">
                                         {% for p in product_list %}
                                             <option value="{{ p|list_0 }}">{{ p|list_1 }}</option>
                                         {% endfor %}
@@ -54,7 +54,7 @@
                             <div class="form-group">
                                 <label for="env" class="col-sm-2 control-label">环境类型</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control input-sm" id="env" name="env">
+                                    <select class="form-control " id="env" name="env">
                                         {% for p in env_list %}
                                             <option value="{{ p|list_0 }}">{{ p|list_1 }}</option>
                                         {% endfor %}
@@ -66,7 +66,11 @@
                             <div class="form-group">
                                 <label for="owner" class="col-sm-2 control-label">项目负责人</label>
                                 <div class="col-sm-8">
-                                    <input id="owner" name="owner" placeholder="项目负责人" type="text" class="form-control" value="{{ owner }}">
+                                    <select class="form-control " id="owner" name="owner">
+                                        {% for p in pm_list %}
+                                            <option value="{{ p }}">{{ p }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
 
@@ -85,7 +89,7 @@
                                     <textarea id="update_remark" name="update_remark" class="form-control" rows="5" placeholder=""></textarea>
                                 </div>
                             </div>
-
+                        <div id="code">
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <label for="code_dir" class="col-sm-2 control-label">代码地址</label>
@@ -101,7 +105,7 @@
                                     <input id="code_tag" name="code_tag" placeholder="Tag" type="text" class="form-control" value="{{ code_tag }}">
                                 </div>
                             </div>
-
+                        </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <label for="database_update" class="col-sm-2 control-label">数据库更新说明</label>
@@ -181,9 +185,20 @@ $(document).ready(function(){
         $('#permissions_selected option').each(function(){
             $(this).prop('selected', true)
         })
-    })
+    });
 })
 
+
+function product_change(){
+    //综合发布时 隐藏  代码路径和tag
+    var product = $('#product').val();
+    if (product == '-1'){
+        $('#code').hide();
+    }
+    else{
+        $('#code').show();
+    }
+}
 
 </script>
 {% endblock %}

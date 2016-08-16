@@ -31,10 +31,23 @@
                             {% if msg %}
                                 <div class="alert alert-success text-center">{{ msg }}</div>
                             {% endif %}
+
+                            <div class="form-group">
+                                <label for="env" class="col-sm-2 control-label">环境类型</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="env" name="env">
+                                        {% for l in env_list %}
+                                            <option value="{{ l|list_0 }}">{{ l|list_1 }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <label for="style" class="col-sm-2 control-label">APP类型</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control input-sm" id="style" name="style" onchange="change_div()">
+                                    <select class="form-control " id="style" name="style" onchange="change_div()">
                                         {% for p in style_list %}
                                             <option value="{{ p|list_0 }}">{{ p|list_1 }}</option>
                                         {% endfor %}
@@ -45,7 +58,7 @@
                             <div class="form-group">
                                 <label for="platform" class="col-sm-2 control-label">平台</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control input-sm" id="platform" name="platform" onchange="change_div()">
+                                    <select class="form-control " id="platform" name="platform" onchange="change_div()">
                                         {% for l in platform_list %}
                                             <option value="{{ l|list_0 }}">{{ l|list_1 }}</option>
                                         {% endfor %}
@@ -66,7 +79,11 @@
                             <div class="form-group">
                                 <label for="owner" class="col-sm-2 control-label">项目负责人</label>
                                 <div class="col-sm-8">
-                                    <input id="owner" name="owner" type="text" class="form-control" value="{{ app_publish_task.owner }}">
+                                    <select class="form-control " id="owner" name="owner">
+                                        {% for p in pm_list %}
+                                            <option value="{{ p }}">{{ p }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                             
@@ -89,17 +106,17 @@
 
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                                <label for="client_sys_AndroidPublishVersion" class="col-sm-2 control-label">AndroidPublishVersion</label>
+                                <label for="client_sys_Androidisforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
                                 <div class="col-sm-8">
-                                    <input id="client_sys_AndroidPublishVersion" name="client_sys_AndroidPublishVersion" placeholder="" type="text" class="form-control" value="{{ client_sys_AndroidPublishVersion }}">
+                                    <input id="client_sys_Androidisforcedupdate" name="client_sys_Androidisforcedupdate" placeholder="是否强制升级  1为强制升级 0为非强制升级" type="text" class="form-control" value="{{ client_sys_Androidisforcedupdate }}">
                                 </div>
                             </div>
 
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                                <label for="client_sys_isforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
+                                <label for="client_sys_AndroidPublishVersion" class="col-sm-2 control-label">AndroidPublishVersion</label>
                                 <div class="col-sm-8">
-                                    <input id="client_sys_isforcedupdate" name="client_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ client_sys_isforcedupdate }}">
+                                    <input id="client_sys_AndroidPublishVersion" name="client_sys_AndroidPublishVersion" placeholder="安卓请求的接口版本号" type="text" class="form-control" value="{{ client_sys_AndroidPublishVersion }}">
                                 </div>
                             </div>
 
@@ -107,7 +124,7 @@
                             <div class="form-group">
                                 <label for="client_config_androidversion" class="col-sm-2 control-label">androidversion</label>
                                 <div class="col-sm-8">
-                                    <input id="client_config_androidversion" name="client_config_androidversion" placeholder="" type="text" class="form-control" value="{{ client_config_androidversion }}">
+                                    <input id="client_config_androidversion" name="client_config_androidversion" placeholder="安卓的升级版本号" type="text" class="form-control" value="{{ client_config_androidversion }}">
                                 </div>
                             </div>
 
@@ -115,23 +132,23 @@
                             <div class="form-group">
                                 <label for="client_config_androidsjversion" class="col-sm-2 control-label">androidsjversion</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="client_config_androidsjversion" id="client_config_androidsjversion" placeholder="" class="form-control" value="{{ client_config_androidsjversion }}"/>
+                                    <input type="text" name="client_config_androidsjversion" id="client_config_androidsjversion" placeholder="控制是否升级的弹窗" class="form-control" value="{{ client_config_androidsjversion }}"/>
                                 </div>
                             </div>
 
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                                <label for="client_config_downloadandroidpath" class="col-sm-2 control-label">downloadandroidpath</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="client_config_downloadandroidpath" id="client_config_downloadandroidpath" placeholder="" class="form-control" value="{{ client_config_downloadandroidpath }}"/>
-                                </div>
-                            </div>
+{#                            <div class="hr-line-dashed"></div>#}
+{#                            <div class="form-group">#}
+{#                                <label for="client_config_downloadandroidpath" class="col-sm-2 control-label">downloadandroidpath</label>#}
+{#                                <div class="col-sm-8">#}
+{#                                    <input type="text" name="client_config_downloadandroidpath" id="client_config_downloadandroidpath" placeholder="" class="form-control" value="{{ client_config_downloadandroidpath }}"/>#}
+{#                                </div>#}
+{#                            </div>#}
 
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <label for="client_config_androidverremark" class="col-sm-2 control-label">androidverremark</label>
                                 <div class="col-sm-8">
-                                    <textarea id="client_config_androidverremark" name="client_config_androidverremark" class="form-control" rows="5" placeholder="">{{ client_config_androidverremark }}</textarea>
+                                    <textarea id="client_config_androidverremark" name="client_config_androidverremark" class="form-control" rows="5" placeholder="安卓版本升级内容">{{ client_config_androidverremark }}</textarea>
                                 </div>
                             </div>
 
@@ -139,7 +156,7 @@
                             <div class="form-group">
                                 <label for="client_config_androidsUpdateRemark" class="col-sm-2 control-label">androidsUpdateRemark</label>
                                 <div class="col-sm-8">
-                                    <textarea id="client_config_androidsUpdateRemark" name="client_config_androidsUpdateRemark" class="form-control" rows="5" placeholder="">{{ client_config_androidsUpdateRemark }}</textarea>
+                                    <textarea id="client_config_androidsUpdateRemark" name="client_config_androidsUpdateRemark" class="form-control" rows="5" placeholder="安卓版更新说明">{{ client_config_androidsUpdateRemark }}</textarea>
                                 </div>
                             </div>
 
@@ -152,15 +169,15 @@
                             <div class="form-group">
                                 <label for="client_sys_IOSPublishVersion" class="col-sm-2 control-label">IOSPublishVersion</label>
                                 <div class="col-sm-8">
-                                    <input id="client_sys_IOSPublishVersion" name="client_sys_IOSPublishVersion" placeholder="" type="text" class="form-control" value="{{ client_sys_IOSPublishVersion }}">
+                                    <input id="client_sys_IOSPublishVersion" name="client_sys_IOSPublishVersion" placeholder="苹果请求的接口版本号" type="text" class="form-control" value="{{ client_sys_IOSPublishVersion }}">
                                 </div>
                             </div>
 
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                                <label for="client_sys_isforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
+                                <label for="client_sys_IOSisforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
                                 <div class="col-sm-8">
-                                    <input id="client_sys_isforcedupdate" name="client_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ client_sys_isforcedupdate }}">
+                                    <input id="client_sys_IOSisforcedupdate" name="client_sys_IOSisforcedupdate" placeholder="是否强制升级  1为强制升级 0为非强制升级" type="text" class="form-control" value="{{ client_sys_IOSisforcedupdate }}">
                                 </div>
                             </div>
 
@@ -168,7 +185,7 @@
                             <div class="form-group">
                                 <label for="client_config_iossjversion" class="col-sm-2 control-label">iossjversion</label>
                                 <div class="col-sm-8">
-                                    <input id="client_config_iossjversion" name="client_config_iossjversion" placeholder="" type="text" class="form-control" value="{{ client_config_iossjversion }}">
+                                    <input id="client_config_iossjversion" name="client_config_iossjversion" placeholder="苹果的升级版本号" type="text" class="form-control" value="{{ client_config_iossjversion }}">
                                 </div>
                             </div>
 
@@ -176,10 +193,16 @@
                             <div class="form-group">
                                 <label for="client_config_iosUpdateRemark" class="col-sm-2 control-label">iosUpdateRemark</label>
                                 <div class="col-sm-8">
-                                    <textarea id="client_config_iosUpdateRemark" name="client_config_iosUpdateRemark" class="form-control" rows="5" placeholder="">{{ client_config_iosUpdateRemark }}</textarea>
+                                    <textarea id="client_config_iosUpdateRemark" name="client_config_iosUpdateRemark" class="form-control" rows="5" placeholder="ios版更新说明">{{ client_config_iosUpdateRemark }}</textarea>
                                 </div>
                             </div>
-
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="client_config_iosverremark" class="col-sm-2 control-label">iosverremark</label>
+                                <div class="col-sm-8">
+                                    <textarea id="client_config_iosverremark" name="client_config_iosverremark" class="form-control" rows="5" placeholder="ios版本升级内容">{{ client_config_iosverremark }}</textarea>
+                                </div>
+                            </div>
                         </div>
 
                         <div id="id_courier_android">
@@ -195,15 +218,15 @@
                             <div class="form-group">
                                 <label for="courier_sys_AndroidPublishVersion" class="col-sm-2 control-label">AndroidPublishVersion</label>
                                 <div class="col-sm-8">
-                                    <input id="courier_sys_AndroidPublishVersion" name="courier_sys_AndroidPublishVersion" placeholder="" type="text" class="form-control" value="{{ courier_sys_AndroidPublishVersion }}">
+                                    <input id="courier_sys_AndroidPublishVersion" name="courier_sys_AndroidPublishVersion" placeholder="安卓请求的接口版本号" type="text" class="form-control" value="{{ courier_sys_AndroidPublishVersion }}">
                                 </div>
                             </div>
 
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                                <label for="courier_sys_isforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
+                                <label for="courier_sys_Androidisforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
                                 <div class="col-sm-8">
-                                    <input id="courier_sys_isforcedupdate" name="courier_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ courier_sys_isforcedupdate }}">
+                                    <input id="courier_sys_Androidisforcedupdate" name="courier_sys_Androidisforcedupdate" placeholder="是否强制升级  1为强制升级 0为非强制升级" type="text" class="form-control" value="{{ courier_sys_Androidisforcedupdate }}">
                                 </div>
                             </div>
 
@@ -211,7 +234,7 @@
                             <div class="form-group">
                                 <label for="courier_config_androidversion" class="col-sm-2 control-label">androidversion</label>
                                 <div class="col-sm-8">
-                                    <input id="courier_config_androidversion" name="courier_config_androidversion" placeholder="" type="text" class="form-control" value="{{ courier_config_androidversion }}">
+                                    <input id="courier_config_androidversion" name="courier_config_androidversion" placeholder="安卓的升级版本号" type="text" class="form-control" value="{{ courier_config_androidversion }}">
                                 </div>
                             </div>
 
@@ -219,23 +242,23 @@
                             <div class="form-group">
                                 <label for="courier_config_androidsjversion" class="col-sm-2 control-label">androidsjversion</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="courier_config_androidsjversion" id="courier_config_androidsjversion" placeholder="" class="form-control" value="{{ courier_config_androidsjversion }}"/>
+                                    <input type="text" name="courier_config_androidsjversion" id="courier_config_androidsjversion" placeholder="控制是否升级的弹窗" class="form-control" value="{{ courier_config_androidsjversion }}"/>
                                 </div>
                             </div>
-
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                                <label for="courier_config_downloadandroidpath" class="col-sm-2 control-label">downloadandroidpath</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="courier_config_downloadandroidpath" id="courier_config_downloadandroidpath" placeholder="" class="form-control" value="{{ courier_config_downloadandroidpath }}"/>
-                                </div>
-                            </div>
+{##}
+{#                            <div class="hr-line-dashed"></div>#}
+{#                            <div class="form-group">#}
+{#                                <label for="courier_config_downloadandroidpath" class="col-sm-2 control-label">downloadandroidpath</label>#}
+{#                                <div class="col-sm-8">#}
+{#                                    <input type="text" name="courier_config_downloadandroidpath" id="courier_config_downloadandroidpath" placeholder="" class="form-control" value="{{ courier_config_downloadandroidpath }}"/>#}
+{#                                </div>#}
+{#                            </div>#}
 
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <label for="courier_config_androidverremark" class="col-sm-2 control-label">androidverremark</label>
                                 <div class="col-sm-8">
-                                    <textarea id="courier_config_androidverremark" name="courier_config_androidverremark" class="form-control" rows="5" placeholder="">{{ courier_config_androidverremark }}</textarea>
+                                    <textarea id="courier_config_androidverremark" name="courier_config_androidverremark" class="form-control" rows="5" placeholder="安卓版本升级内容">{{ courier_config_androidverremark }}</textarea>
                                 </div>
                             </div>
 
@@ -243,7 +266,7 @@
                             <div class="form-group">
                                 <label for="courier_config_androidsUpdateRemark" class="col-sm-2 control-label">androidsUpdateRemark</label>
                                 <div class="col-sm-8">
-                                    <textarea id="courier_config_androidsUpdateRemark" name="courier_config_androidsUpdateRemark" class="form-control" rows="5" placeholder="">{{ courier_config_androidsUpdateRemark }}</textarea>
+                                    <textarea id="courier_config_androidsUpdateRemark" name="courier_config_androidsUpdateRemark" class="form-control" rows="5" placeholder="安卓版更新说明">{{ courier_config_androidsUpdateRemark }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -253,14 +276,14 @@
                             <div class="form-group">
                                 <label for="courier_sys_IOSPublishVersion" class="col-sm-2 control-label">IOSPublishVersion</label>
                                 <div class="col-sm-8">
-                                    <input id="courier_sys_IOSPublishVersion" name="courier_sys_IOSPublishVersion" placeholder="" type="text" class="form-control" value="{{ courier_sys_IOSPublishVersion }}">
+                                    <input id="courier_sys_IOSPublishVersion" name="courier_sys_IOSPublishVersion" placeholder="苹果请求的接口版本号" type="text" class="form-control" value="{{ courier_sys_IOSPublishVersion }}">
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                                <label for="courier_sys_isforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
+                                <label for="courier_sys_IOSisforcedupdate" class="col-sm-2 control-label">isforcedupdate</label>
                                 <div class="col-sm-8">
-                                    <input id="courier_sys_isforcedupdate" name="courier_sys_isforcedupdate" placeholder="" type="text" class="form-control" value="{{ courier_sys_isforcedupdate }}">
+                                    <input id="courier_sys_IOSisforcedupdate" name="courier_sys_IOSisforcedupdate" placeholder="是否强制升级  1为强制升级 0为非强制升级" type="text" class="form-control" value="{{ courier_sys_IOSisforcedupdate }}">
                                 </div>
                             </div>
 
@@ -268,7 +291,7 @@
                             <div class="form-group">
                                 <label for="courier_config_iossjversion" class="col-sm-2 control-label">iossjversion</label>
                                 <div class="col-sm-8">
-                                    <input id="courier_config_iossjversion" name="courier_config_iossjversion" placeholder="" type="text" class="form-control" value="{{ courier_config_iossjversion }}">
+                                    <input id="courier_config_iossjversion" name="courier_config_iossjversion" placeholder="苹果的升级版本号" type="text" class="form-control" value="{{ courier_config_iossjversion }}">
                                 </div>
                             </div>
 
@@ -276,10 +299,16 @@
                             <div class="form-group">
                                 <label for="courier_config_iosUpdateRemark" class="col-sm-2 control-label">iosUpdateRemark</label>
                                 <div class="col-sm-8">
-                                    <textarea id="courier_config_iosUpdateRemark" name="courier_config_iosUpdateRemark" class="form-control" rows="5" placeholder="">{{ courier_config_iosUpdateRemark }}</textarea>
+                                    <textarea id="courier_config_iosUpdateRemark" name="courier_config_iosUpdateRemark" class="form-control" rows="5" placeholder="ios版更新说明">{{ courier_config_iosUpdateRemark }}</textarea>
                                 </div>
                             </div>
-
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label for="courier_config_iosverremark" class="col-sm-2 control-label">iosverremark</label>
+                                <div class="col-sm-8">
+                                    <textarea id="courier_config_iosverremark" name="courier_config_iosverremark" class="form-control" rows="5" placeholder="ios版本升级内容">{{ courier_config_iosverremark }}</textarea>
+                                </div>
+                            </div>
                         </div>
 
                             <div class="hr-line-dashed"></div>

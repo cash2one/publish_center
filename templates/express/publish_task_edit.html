@@ -34,7 +34,7 @@
                             <div class="form-group">
                                 <label for="product" class="col-sm-2 control-label">产品线</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control input-sm" id="product" name="product">
+                                    <select class="form-control " id="product" name="product">
                                         {% for l in product_list %}
                                             {% if l|list_0|int2str == publish_task.product %}
                                                 <option value="{{ l|list_0 }}" selected="selected">{{ l|list_1 }}</option>
@@ -59,7 +59,7 @@
                             <div class="form-group">
                                 <label for="env" class="col-sm-2 control-label">环境类型</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control input-sm" id="env" name="env">
+                                    <select class="form-control" id="env" name="env">
                                         {% for l in env_list %}
                                             {% if l|list_0|int2str == publish_task.env %}
                                                 <option value="{{ l|list_0 }}" selected="selected">{{ l|list_1 }}</option>
@@ -75,7 +75,15 @@
                             <div class="form-group">
                                 <label for="owner" class="col-sm-2 control-label">项目负责人</label>
                                 <div class="col-sm-8">
-                                    <input id="owner" name="owner" placeholder="项目负责人" type="text" class="form-control" value="{{ publish_task.owner }}">
+                                    <select class="form-control " id="owner" name="owner">
+                                        {% for p in pm_list %}
+                                            {% if p == publish_task.owner %}
+                                                <option value="{{ p }} " selected="selected">{{ p }}</option>
+                                            {% else %}
+                                                <option value="{{ p }}">{{ p }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
 

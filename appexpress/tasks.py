@@ -43,13 +43,15 @@ def sumbit_publish(task_id):
             Hi All,
                 发布中心有一条新的APP发布任务被提交，等待产品审核
                 发布序列号: %s
+                环境类型: %s
                 APP类型: %s
                 平台: %s
                 版本: %s
                 项目负责人: %s
 
             详情: %s
-            """ % (app_publish_task.seq_no, [i[1] for i in STYLE if i[0] == int(app_publish_task.style)][0],
+            """ % (app_publish_task.seq_no, [i[1] for i in ENV if i[0] == int(app_publish_task.env)][0],
+                   [i[1] for i in STYLE if i[0] == int(app_publish_task.style)][0],
                    [i[1] for i in PLATFORM if i[0] == int(app_publish_task.platform)][0],
                    app_publish_task.version,
                    apply_user.name, detail_url)
@@ -72,13 +74,15 @@ def app_publish(task_id):
             Hi All,
                 发布中心有一条新的APP发布任务被提交到运维平台，等待运维发布
                 发布序列号: %s
+                环境类型: %s
                 APP类型: %s
                 平台: %s
                 版本: %s
                 项目负责人: %s
 
             详情: %s
-            """ % (app_publish_task.seq_no, [i[1] for i in STYLE if i[0] == int(app_publish_task.style)][0],
+            """ % (app_publish_task.seq_no, [i[1] for i in ENV if i[0] == int(app_publish_task.env)][0],
+                   [i[1] for i in STYLE if i[0] == int(app_publish_task.style)][0],
                    [i[1] for i in PLATFORM if i[0] == int(app_publish_task.platfrom)][0],
                    app_publish_task.version,
                    apply_user.name,
@@ -98,6 +102,7 @@ def app_publish(task_id):
             Hi All,
                 发布中心有一条新的发布任务创建,请登陆运维系统操作发布
                 发布序列号: %s
+                环境类型: %s
                 APP类型: %s
                 平台: %s
                 版本: %s
@@ -105,7 +110,7 @@ def app_publish(task_id):
                 预计发布时间:%s
 
             详情: %s
-            """ % (app_publish_task.seq_no,
+            """ % (app_publish_task.seq_no, [i[1] for i in ENV if i[0] == int(app_publish_task.env)][0],
                    [i[1] for i in STYLE if i[0] == int(app_publish_task.product)][0],
                    [i[1] for i in PLATFORM if i[0] == int(app_publish_task.platform)][0],
                    app_publish_task.version, app_publish_task.owner, app_publish_task.publish_time,

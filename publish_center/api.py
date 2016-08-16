@@ -249,7 +249,7 @@ def handle_uploaded_file(f):
     file_name = ""
 
     try:
-        path = "data/sql" + time.strftime('/%Y/%m/%d/%H/%M/%S/')
+        path = "data" + time.strftime('/%Y/%m/%d/%H/%M/%S/')
         if not os.path.exists(path):
             os.makedirs(path)
             file_name = path + f.name

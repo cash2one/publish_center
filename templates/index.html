@@ -1,1 +1,39 @@
 {% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="wrapper wrapper-content" xmlns="http://www.w3.org/1999/html">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5> 使用说明 </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content" style="line-height: 26px">
+                            <span style="font-size: large">发布系统是运维部开发的用于规范公司发版上线流程的一套工具系统，旨在提高发布效率和保持线上环境的绝对稳定，希望大家在使用的过程中需要大家相互配合，并遵守以下几点要求：</span>
+                            <p>
+                            <p style="font-weight: bold;color:#F00; ">1、发布系统账号密码仅供个人使用，不得转借他人,一经发现账号立即封停。</p>
+                            <p style="font-weight: bold;color:#F00; ">2、测试人员对自己测试的产品负责，如有影响主流程的bug问题，产品有权驳回本次版本发布任务。</p>
+                            <p style="font-weight: bold;color:#F00; ">3、产品经理对线上非技术事故和设计用户体验等负责，所以产品经理不能随意点击审核通过按钮。</p>
+                            <p style="font-weight: bold;color:#F00; ">4、产品经理对当天发版时间和任务处理负责，由于线上部署较为复杂，需要提前准备环境等，所以每天发版提交时间不能超过17:00，超过17点发版，除非紧急发布需求外，一律驳回！</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

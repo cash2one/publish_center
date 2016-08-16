@@ -41,6 +41,10 @@
                                         <td>{{ app_publish_task.seq_no }}</td>
                                     </tr>
                                     <tr>
+                                        <td class="text-navy">环境类型</td>
+                                        <td>{{ app_publish_task.env|get_env_name }}</td>
+                                    </tr>
+                                    <tr>
                                         <td class="text-navy">APP类型</td>
                                         <td>{{ app_publish_task.style|get_style_name }}</td>
                                     </tr>
@@ -72,7 +76,7 @@
                                     </tr>
                                     <tr>
                                         <td class="text-navy">isforcedupdate</td>
-                                        <td>{{ app_publish_task.client_sys_isforcedupdate }}</td>
+                                        <td>{{ app_publish_task.client_sys_Androidisforcedupdate }}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-navy">androidversion</td>
@@ -135,6 +139,10 @@
                                         <td>{{ app_publish_task.seq_no }}</td>
                                     </tr>
                                     <tr>
+                                        <td class="text-navy">环境类型</td>
+                                        <td>{{ app_publish_task.env|get_env_name }}</td>
+                                    </tr>
+                                    <tr>
                                         <td class="text-navy">APP类型</td>
                                         <td>{{ app_publish_task.style|get_style_name }}</td>
                                     </tr>
@@ -162,7 +170,7 @@
                                     </tr>
                                     <tr>
                                         <td class="text-navy">isforcedupdate</td>
-                                        <td>{{ app_publish_task.client_sys_isforcedupdate }}</td>
+                                        <td>{{ app_publish_task.client_sys_IOSisforcedupdate }}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-navy">iossjversion</td>
@@ -171,6 +179,10 @@
                                     <tr>
                                         <td class="text-navy">iosUpdateRemark</td>
                                         <td>{{ app_publish_task.client_config_iosUpdateRemark }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-navy">iosverremark</td>
+                                        <td>{{ app_publish_task.client_config_iosverremark }}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-navy">提交时间</td>
@@ -213,6 +225,10 @@
                                         <td>{{ app_publish_task.seq_no }}</td>
                                     </tr>
                                     <tr>
+                                        <td class="text-navy">环境类型</td>
+                                        <td>{{ app_publish_task.env|get_env_name }}</td>
+                                    </tr>
+                                    <tr>
                                         <td class="text-navy">APP类型</td>
                                         <td>{{ app_publish_task.style|get_style_name }}</td>
                                     </tr>
@@ -244,7 +260,7 @@
                                     </tr>
                                     <tr>
                                         <td class="text-navy">isforcedupdate</td>
-                                        <td>{{ app_publish_task.courier_sys_isforcedupdate }}</td>
+                                        <td>{{ app_publish_task.courier_sys_Androidisforcedupdate }}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-navy">androidversion</td>
@@ -307,6 +323,10 @@
                                         <td>{{ app_publish_task.seq_no }}</td>
                                     </tr>
                                     <tr>
+                                        <td class="text-navy">环境类型</td>
+                                        <td>{{ app_publish_task.env|get_env_name }}</td>
+                                    </tr>
+                                    <tr>
                                         <td class="text-navy">APP类型</td>
                                         <td>{{ app_publish_task.style|get_style_name }}</td>
                                     </tr>
@@ -340,7 +360,7 @@
                                     </tr>
                                     <tr>
                                         <td class="text-navy">isforcedupdate</td>
-                                        <td>{{ app_publish_task.courier_sys_isforcedupdate }}</td>
+                                        <td>{{ app_publish_task.courier_sys_IOSisforcedupdate }}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-navy">iossjversion</td>
@@ -349,6 +369,10 @@
                                     <tr>
                                         <td class="text-navy">iosUpdateRemark</td>
                                         <td>{{ app_publish_task.courier_config_iosUpdateRemark }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-navy">iosverremark</td>
+                                        <td>{{ app_publish_task.courier_config_iosverremark }}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-navy">提交时间</td>

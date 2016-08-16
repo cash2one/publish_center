@@ -54,6 +54,10 @@ def publish_task_add(request):
 
     product_list = list(LINE)
     env_list = list(ENV)
+    pm_list = list()
+    for user in User.objects.filter(is_active=True):
+        if 'PM' in [group.name for group in user.groups.all()]:
+            pm_list.append(user.name)
 
     if request.method == 'POST':
         product = request.POST.get('product', '')
@@ -86,7 +90,7 @@ def publish_task_add(request):
             else:
                 num = 1
             seq_no = 'RRPT-%s%s%s%s' % (current_year, '%02i' % current_month, '%02i' % current_day, '%02i' % num)
-            create_time = datetime.datetime.now()
+            create_time = timezone.now()
             PublishTask.objects.create(seq_no=seq_no,
                                        product=product,
                                        project=project,
@@ -150,6 +154,10 @@ def publish_task_edit(request):
         task_id = request.GET.get('id', '')
         product_list = list(LINE)
         env_list = list(ENV)
+        pm_list = list()
+        for user in User.objects.filter(is_active=True):
+            if 'PM' in [group.name for group in user.groups.all()]:
+                pm_list.append(user.name)
         publish_task = get_object(PublishTask, id=task_id)
 
     if request.method == 'POST':
@@ -208,13 +216,13 @@ def publish_task_submit(request):
         publish_task = PublishTask.objects.get(id=task_id)
         if publish_task.status == '1':
             publish_task.submit_by = request.user.username
-            publish_task.submit_time = datetime.datetime.now()
+            publish_task.submit_time = timezone.now()
             if publish_task.env == '1':
                 publish_task.status = 2
                 publish_task.save()
                 sumbit_publish.delay(publish_task.id)
             elif publish_task.env == '2':
-                publish_task.approval_time = datetime.datetime.now()
+                publish_task.approval_time = timezone.now()
                 publish_task.approval_by = request.user.username
                 publish_task.publish_time = u'立即'
                 publish_task.status = 3
@@ -289,7 +297,7 @@ def publish_task_apply(request):
         publish_time = request.POST.get('publish_time', '')
         try:
             PublishTask.objects.filter(id=project_id).update(publish_time=publish_time, status=3,
-                                                             approval_time=datetime.datetime.now(),
+                                                             approval_time=timezone.now(),
                                                              approval_by=request.user.username)
             publish_task = get_object(PublishTask, id=project_id)
             ctx = {"seq_no": publish_task.seq_no, "product": publish_task.product,
