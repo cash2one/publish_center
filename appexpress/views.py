@@ -330,10 +330,16 @@ def app_publish_task_submit(request):
                 sumbit_publish.delay(app_publish_task.id)
             elif app_publish_task.env == '2':
                 try:
-                    AppPublishTask.objects.filter(id=task_id).update(publish_time='立即', status=3,
-                                                                     approval_time=datetime.datetime.now(),
-                                                                     approval_by=request.user.username)
                     app_publish_task = get_object(AppPublishTask, id=task_id)
+                    app_publish_task.submit_by = request.user.username
+                    app_publish_task.submit_time = timezone.now()
+                    app_publish_task.publish_time = u'立即'
+                    app_publish_task.status = 3
+                    app_publish_task.approval_time = timezone.now()
+                    app_publish_task.approval_by = request.user.username
+                    app_publish_task.save()
+
+                    print app_publish_task.approval_time
                     ctx = {"seq_no": app_publish_task.seq_no,
                            "env": app_publish_task.env,
                            "style": app_publish_task.style,
@@ -368,9 +374,9 @@ def app_publish_task_submit(request):
                            "courier_config_androidverremark": app_publish_task.courier_config_androidverremark,
                            "courier_config_androidsUpdateRemark": app_publish_task.courier_config_androidsUpdateRemark,
                            "publish_time": app_publish_task.publish_time,
-                           "approval_time": app_publish_task.approval_time.strftime("%Y-%m-%d %H:%M:%S"),
+                           "approval_time": timezone.localtime(app_publish_task.approval_time).strftime("%Y-%m-%d %H:%M:%S"),
                            "approval_by": app_publish_task.approval_by,
-                           "submit_time": app_publish_task.submit_time.strftime("%Y-%m-%d %H:%M:%S"),
+                           "submit_time": timezone.localtime(app_publish_task.submit_time).strftime("%Y-%m-%d %H:%M:%S"),
                            "submit_by": app_publish_task.submit_by,
                            "status": app_publish_task.status,
                            "create_time": app_publish_task.create_time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -391,7 +397,7 @@ def app_publish_task_submit(request):
                     error = u'审核任务失败'
                 else:
                     msg = u'已完成审核，同时APP发布任务已通知运维平台！'
-                    return HttpResponseRedirect(reverse('app_publish_task_apply_list'))
+                    return HttpResponseRedirect(reverse('app_publish_task_list'))
     return HttpResponseRedirect(reverse('app_publish_task_list'))
 
 
@@ -432,10 +438,12 @@ def app_publish_task_apply(request):
         project_id = request.POST.get('project_id', '')
         publish_time = request.POST.get('publish_time', '')
         try:
-            AppPublishTask.objects.filter(id=project_id).update(publish_time=publish_time, status=3,
-                                                                approval_time=timezone.now(),
-                                                                approval_by=request.user.username)
             app_publish_task = get_object(AppPublishTask, id=project_id)
+            app_publish_task.publish_time = publish_time
+            app_publish_task.status = 3
+            app_publish_task.approval_time = timezone.now()
+            app_publish_task.approval_by = request.user.username
+            app_publish_task.save()
             ctx = {"seq_no": app_publish_task.seq_no,
                    "env": app_publish_task.env,
                    "style": app_publish_task.style,
@@ -470,9 +478,9 @@ def app_publish_task_apply(request):
                    "courier_config_androidverremark": app_publish_task.courier_config_androidverremark,
                    "courier_config_androidsUpdateRemark": app_publish_task.courier_config_androidsUpdateRemark,
                    "publish_time": app_publish_task.publish_time,
-                   "approval_time": app_publish_task.approval_time.strftime("%Y-%m-%d %H:%M:%S"),
+                   "approval_time": timezone.localtime(app_publish_task.approval_time).strftime("%Y-%m-%d %H:%M:%S"),
                    "approval_by": app_publish_task.approval_by,
-                   "submit_time": app_publish_task.submit_time.strftime("%Y-%m-%d %H:%M:%S"),
+                   "submit_time": timezone.localtime(app_publish_task.submit_time).strftime("%Y-%m-%d %H:%M:%S"),
                    "submit_by": app_publish_task.submit_by,
                    "status": app_publish_task.status,
                    "create_time": app_publish_task.create_time.strftime("%Y-%m-%d %H:%M:%S"),
