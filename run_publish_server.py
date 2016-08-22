@@ -33,12 +33,15 @@ def main():
         'cookie_secret': 'DFksdfsasdfkasdfFKwlwfsdfsa1204mx',
         'template_path': os.path.join(os.path.dirname(__file__), 'templates'),
         'static_path': os.path.join(os.path.dirname(__file__), 'static'),
+        'data_path': os.path.join(os.path.dirname(__file__), 'data'),
         'debug': False,
     }
     tornado_app = tornado.web.Application(
         [
             (r"/static/(.*)", tornado.web.StaticFileHandler,
              dict(path=os.path.join(os.path.dirname(__file__), "static"))),
+            (r"/data/(.*)", tornado.web.StaticFileHandler,
+             dict(path=os.path.join(os.path.dirname(__file__), "data"))),
             ('.*', tornado.web.FallbackHandler, dict(fallback=container)),
         ], **setting)
 
