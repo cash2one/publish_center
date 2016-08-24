@@ -249,10 +249,11 @@ def publish_task_submit(request):
                                 json.dumps({"data": ctx}), 'POST', {'Content-Type': 'application/json'})
                 if data and data.get('code') == -1:
                     error = data.get('msg')
-                    return HttpResponse(error)
+                    print error
+                    return HttpResponse('error')
                 if not data:
-                    error = u'无法打开目标网址,请联系系统开发人员!'
-                    return HttpResponse(error)
+                    print '无法打开目标网站'
+                    return HttpResponse('error')
                 # 发送运维发布信息
                 ops_publish.delay(publish_task.id)
 

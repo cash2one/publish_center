@@ -105,10 +105,10 @@
 
                                 <td class="text-center">
                                     {% if perms.account.perm_can_change_publish_task %}
-                                    <a href="{% url 'publish_task_edit' %}?id={{ task.id }}" class="btn btn-xs btn-primary {% if task.status != '1' %} disabled {% endif %}">编辑</a>
+                                        <a href="{% url 'publish_task_edit' %}?id={{ task.id }}" class="btn btn-xs btn-primary {% if task.status != '1' %} disabled {% endif %}">编辑</a>
                                     {% endif %}
                                     {% if perms.account.perm_can_submit_publish_task %}
-                                    <a href="{% url 'publish_task_submit' %}?id={{ task.id }}" class="btn btn-xs btn-success {% if task.status != '1' %} disabled {% endif %}">提交</a>
+                                        <a value="{{ task.id }}" class="btn btn-xs btn-success btn-submit {% if task.status != '1' %} disabled {% endif %}">提交</a>
                                     {% endif %}
                                     {% if perms.account.perm_can_delete_publish_task %}
                                         <a href="{% url 'publish_task_del' %}?id={{ task.id }}" class="btn btn-xs btn-danger {% if task.status != '1' %} disabled {% endif %}">删除</a>
@@ -131,4 +131,28 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+
+{% block self_footer_js %}
+    <script>
+    $(document).ready(function() {
+        $('.btn-submit').click(function(){
+            var url = '{% url 'publish_task_submit' %}?id=' + $(this).attr('value');
+            if (confirm("确定提交?")) {
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: {},
+                    success: function (data) {
+                        if (data == 'error' || data == '' || data == undefined) {
+                            layer.alert('提交出错，联系管理员！')
+                        }
+                        parent.location.reload();
+                    }
+                });
+            }
+        });
+    })
+    </script>
 {% endblock %}
