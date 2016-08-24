@@ -82,6 +82,9 @@
                                     {% if perms.account.perm_can_submit_publish_task %}
                                     <a value="{{ task.id }}" class="btn btn-xs btn-success btn-submit {% if task.status != '1' %} disabled {% endif %}">提交</a>
                                     {% endif %}
+                                    {% if perms.account.perm_can_delete_app_publish_task %}
+                                        <a href="{% url 'app_publish_task_del' %}?id={{ task.id }}" class="btn btn-xs btn-danger {% if task.status != '1' %} disabled {% endif %}">删除</a>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}

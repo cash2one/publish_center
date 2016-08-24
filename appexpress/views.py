@@ -188,6 +188,20 @@ def app_publish_task_detail(request):
     return render_to_response('appexpress/app_publish_task_detail.html', locals(), RequestContext(request))
 
 
+@require_permission('account.perm_can_delete_app_publish_task')
+def app_publish_task_del(request):
+    """
+    del a publish task
+    删除发布任务
+    """
+    task_ids = request.GET.get('id', '')
+    task_id_list = task_ids.split(',')
+    for task_id in task_id_list:
+        AppPublishTask.objects.filter(id=task_id, status=1).delete()
+
+    return HttpResponse('删除成功')
+
+
 @require_permission('account.perm_can_edit_app_publish_task')
 def app_publish_task_edit(request):
     error = ''
