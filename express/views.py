@@ -28,7 +28,7 @@ def publish_task_list(request):
     发布任务列表
     """
     header_title, path1, path2 = '查看发布任务', '发布任务管理', '查看发布任务'
-    keyword = request.GET.get('search', '')
+    keyword = request.GET.get('keyword', '')
     publish_task_list = PublishTask.objects.all().order_by('-seq_no')
     task_id = request.GET.get('id', '')
     status_all = list(STATUS)
