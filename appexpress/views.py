@@ -27,7 +27,7 @@ def app_publish_task_list(request):
     task_id = request.GET.get('id', '')
 
     if keyword:
-        app_publish_task_list = app_publish_task_list.filter(name__icontains=keyword)
+        app_publish_task_list = app_publish_task_list.filter(owner__icontains=keyword)
 
     if task_id:
         app_publish_task_list = app_publish_task_list.filter(id=int(task_id))

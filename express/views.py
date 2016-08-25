@@ -33,7 +33,7 @@ def publish_task_list(request):
     task_id = request.GET.get('id', '')
 
     if keyword:
-        publish_task_list = publish_task_list.filter(name__icontains=keyword)
+        publish_task_list = publish_task_list.filter(project__icontains=keyword)
 
     if task_id:
         publish_task_list = publish_task_list.filter(id=int(task_id))
