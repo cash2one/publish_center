@@ -83,7 +83,7 @@ def app_publish(task_id):
             详情: %s
             """ % (app_publish_task.seq_no, [i[1] for i in ENV if i[0] == int(app_publish_task.env)][0],
                    [i[1] for i in STYLE if i[0] == int(app_publish_task.style)][0],
-                   [i[1] for i in PLATFORM if i[0] == int(app_publish_task.platfrom)][0],
+                   [i[1] for i in PLATFORM if i[0] == int(app_publish_task.platform)][0],
                    app_publish_task.version,
                    apply_user.name,
                    detail_url)

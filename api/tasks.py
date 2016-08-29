@@ -113,7 +113,7 @@ def deploy_app_publish(task_id):
             详情: %s
             """ % (app_publish_task.seq_no, [i[1] for i in ENV if i[0] == int(app_publish_task.env)][0],
                    [i[1] for i in STYLE if i[0] == int(app_publish_task.style)][0],
-                   [i[1] for i in PLATFORM if i[0] == int(app_publish_task.platfrom)][0],
+                   [i[1] for i in PLATFORM if i[0] == int(app_publish_task.platform)][0],
                    app_publish_task.version, app_publish_task.owner,
                    app_publish_task.update_remark, detail_url)
     submit_user = get_object(User, username=app_publish_task.submit_by)
@@ -135,7 +135,7 @@ def deploy_app_publish(task_id):
     sms_msg = u"""【运维发布中心】%s | %s%s %s 已经成功上线, 请及时关注!""" % \
               ([i[1] for i in ENV if i[0] == int(app_publish_task.env)][0],
                [i[1] for i in STYLE if i[0] == int(app_publish_task.style)][0], app_publish_task.varsion,
-               [i[1] for i in PLATFORM if i[0] == int(app_publish_task.platfrom)][0])
+               [i[1] for i in PLATFORM if i[0] == int(app_publish_task.platform)][0])
     sms_send(ops_sms + qa_sms + pm_sms, sms_msg)
 
 
