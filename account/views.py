@@ -357,7 +357,7 @@ def forget_password(request):
             timestamp = int(time.time())
             hash_encode = PyCrypt.md5_crypt(str(user.uuid) + str(timestamp) + KEY)
             msg = u"""
-            Hi %s, 请点击下面链接重设密码！
+            Hi %s, 请点击下面链接重设密码！ 请在 10 分钟内操作！
             %s/account/password/reset/?uuid=%s&timestamp=%s&hash=%s
             """ % (user.name, URL, user.uuid, timestamp, hash_encode)
             send_mail('忘记跳板机密码', msg, MAIL_FROM, [email], fail_silently=False)
