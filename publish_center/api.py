@@ -15,6 +15,7 @@ import time
 import urllib
 import urllib2
 import random
+import hashlib
 
 from Crypto.Cipher import AES
 import crypt
