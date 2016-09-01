@@ -6,7 +6,6 @@
 @file: views.py
 @time: 16-6-2 下午5:29
 """
-from publish_center import settings
 from publish_center.api import *
 from models import *
 from django.utils import timezone
