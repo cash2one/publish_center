@@ -69,14 +69,20 @@ def publish_task_add(request):
     project_list = projects.get('projects')
     print project_list
     branch_list = []
-    # subp = subprocess.Popen('git ls-remote -t -h --refs https://github.com/lrqrun/opsplatform', shell=True, stdout=subprocess.PIPE)
-    # c = subp.stdout.readline()
-    # while c:
-    #     ref = c.split('	')[1][:-1]
-    #     if ref:
-    #         branch_list.append(ref)
-    #     c = subp.stdout.readline()
-    # print branch_list
+    project = api_call(s.OPS_DOMAIN + s.GET_PROJECT_GITURL, {'project': project_list[0], 'env': 2})
+    print project, type(project)
+    git_url = project.get('git_url', '')
+    if git_url:
+        cmd = 'git ls-remote -t -h --refs ' + git_url
+        print cmd
+        subp = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+        c = subp.stdout.readline()
+        while c:
+            ref = c.split('	')[1][:-1]
+            if ref:
+                branch_list.append(ref)
+            c = subp.stdout.readline()
+        print branch_list
 
     if request.method == 'POST':
         product = request.POST.get('product', '')
