@@ -6,12 +6,10 @@
 @file: views.py
 @time: 16-6-2 下午5:29
 """
-from publish_center.api import *
-from models import *
+import subprocess
 from django.utils import timezone
-from account.models import User
-from publish_center.send import *
 from tasks import *
+from publish_center import settings as s
 
 import sys
 default_encoding = 'utf-8'
@@ -64,6 +62,21 @@ def publish_task_add(request):
     for user in User.objects.filter(is_active=True):
         if 'PM' in [group.name for group in user.groups.all()]:
             pm_list.append(user.name)
+
+    # 项目
+    project_list = list()
+    projects = api_call(s.OPS_DOMAIN + s.GET_PROJECTS, {'env': '2'})
+    project_list = projects.get('projects')
+    print project_list
+    branch_list = []
+    # subp = subprocess.Popen('git ls-remote -t -h --refs https://github.com/lrqrun/opsplatform', shell=True, stdout=subprocess.PIPE)
+    # c = subp.stdout.readline()
+    # while c:
+    #     ref = c.split('	')[1][:-1]
+    #     if ref:
+    #         branch_list.append(ref)
+    #     c = subp.stdout.readline()
+    # print branch_list
 
     if request.method == 'POST':
         product = request.POST.get('product', '')
@@ -345,3 +358,32 @@ def publish_task_apply(request):
             return HttpResponseRedirect(reverse('publish_task_apply_list'))
 
     return render_to_response('express/publish_task_apply.html', locals(), RequestContext(request))
+
+
+def get_branch(request):
+    """
+    获取项目的分支tag
+    :param request:
+    :return:
+    """
+    project = request.GET.get('project')
+    env = request.GET.get('env')
+    branch_list = []
+    print project, env
+    project = api_call(s.OPS_DOMAIN + s.GET_PROJECT_GITURL, {'project': project, 'env': env})
+    print project, type(project)
+    git_url = project.get('git_url', '')
+    if not git_url:
+        return JsonResponse({'res': branch_list})
+    cmd = 'git ls-remote -t -h --refs ' + git_url
+    print cmd
+    subp = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    c = subp.stdout.readline()
+    while c:
+        ref = c.split('	')[1][:-1]
+        if ref:
+            branch_list.append(ref)
+        c = subp.stdout.readline()
+    print branch_list
+    return JsonResponse({'res': branch_list})
+

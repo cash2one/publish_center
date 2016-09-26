@@ -20,4 +20,6 @@ urlpatterns = [
     url(r'^publish_task_apply_list', publish_task_apply_list, name='publish_task_apply_list'),
     url(r'^publish_task_apply/', publish_task_apply, name='publish_task_apply'),
 
+    url(r'^get_branch/', get_branch, name='get_branch'),
+
 ]

@@ -186,6 +186,7 @@ PUBLISH_TASK_CREATE = '/api/publish_task_create/'
 APP_PUBLISH_TASK_CREATE = '/api/app_publish_task_create/'
 TEAM_USERS = '/team/users'
 GET_PROJECTS = '/api/get_projects/'
+GET_PROJECT_GITURL = '/api/get_project_giturl/'
 
 SMS_INTERFACE = 'http://172.16.60.17:8071/sms_client_falcon.php'
 

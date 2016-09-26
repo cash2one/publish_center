@@ -46,7 +46,11 @@
                             <div class="form-group">
                                 <label for="project" class="col-sm-2 control-label">产品名称</label>
                                 <div class="col-sm-8">
-                                    <input id="project" name="project" placeholder="产品名称" type="text" class="form-control" value="{{ project }}">
+                                    <select class="form-control" id="project" name="project" onchange="project_change()">
+                                        {% for p in project_list %}
+                                            <option value="{{ p }}">{{ p }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
 
@@ -54,7 +58,7 @@
                             <div class="form-group">
                                 <label for="env" class="col-sm-2 control-label">环境类型</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control " id="env" name="env">
+                                    <select class="form-control " id="env" name="env" onchange="project_change()">
                                         {% for p in env_list %}
                                             <option value="{{ p|list_0 }}">{{ p|list_1 }}</option>
                                         {% endfor %}
@@ -90,19 +94,23 @@
                                 </div>
                             </div>
                         <div id="code">
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                                <label for="code_dir" class="col-sm-2 control-label">代码地址</label>
-                                <div class="col-sm-8">
-                                    <input id="code_dir" name="code_dir" placeholder="git:" type="text" class="form-control" value="{{ code_dir }}">
-                                </div>
-                            </div>
+{#                            <div class="hr-line-dashed"></div>#}
+{#                            <div class="form-group">#}
+{#                                <label for="code_dir" class="col-sm-2 control-label">代码地址</label>#}
+{#                                <div class="col-sm-8">#}
+{#                                    <input id="code_dir" name="code_dir" placeholder="git:" type="text" class="form-control" value="{{ code_dir }}">#}
+{#                                </div>#}
+{#                            </div>#}
 
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                                <label for="code_tag" class="col-sm-2 control-label">Tag</label>
+                                <label for="code_tag" class="col-sm-2 control-label">Tag/Branch</label>
                                 <div class="col-sm-8">
-                                    <input id="code_tag" name="code_tag" placeholder="Tag" type="text" class="form-control" value="{{ code_tag }}">
+                                    <select class="form-control" id="code_tag" name="code_tag">
+                                        {% for p in branch_list %}
+                                            <option value="{{ p }}">{{ p }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -198,6 +206,26 @@ function product_change(){
     else{
         $('#code').show();
     }
+}
+
+
+function project_change(){
+    // 切换项目更改branch
+    var project = $('#project').val();
+    var env = $('#env').val();
+    var url = '{% url 'get_branch' %}?project=' + project + '&env=' + env;
+    $.ajax({
+        type: 'GET',
+        url: url,
+        data: { },
+        success: function (data) {
+            var html = "";
+			$.each(data.res, function(k, v){
+				html += "<option value='" + v + "'>" + v + "</option>";
+			});
+			$("#code_tag").html(html);
+        }
+    });
 }
 
 </script>
