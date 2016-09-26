@@ -65,7 +65,7 @@ def publish_task_add(request):
 
     # 项目
     project_list = list()
-    projects = api_call(s.OPS_DOMAIN + s.GET_PROJECTS)
+    projects = api_call(s.OPS_DOMAIN + s.GET_PROJECTS, {'env': 2})
     project_list = projects.get('projects')
     print project_list
     branch_list = []
