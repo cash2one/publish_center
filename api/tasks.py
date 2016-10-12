@@ -134,7 +134,7 @@ def deploy_app_publish(task_id):
     # 发送发布完成短信
     sms_msg = u"""【运维发布中心】%s | %s%s %s 已经成功上线, 请及时关注!""" % \
               ([i[1] for i in ENV if i[0] == int(app_publish_task.env)][0],
-               [i[1] for i in STYLE if i[0] == int(app_publish_task.style)][0], app_publish_task.varsion,
+               [i[1] for i in STYLE if i[0] == int(app_publish_task.style)][0], app_publish_task.version,
                [i[1] for i in PLATFORM if i[0] == int(app_publish_task.platform)][0])
     sms_send(ops_sms + qa_sms + pm_sms, sms_msg)
 

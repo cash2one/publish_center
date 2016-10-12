@@ -65,12 +65,13 @@ def publish_task_add(request):
 
     # 项目
     project_list = list()
-    projects = api_call(s.OPS_DOMAIN + s.GET_PROJECTS, {'env': 2})
+    projects = api_call(s.OPS_DOMAIN + s.GET_PROJECTS,)
     project_list = projects.get('projects')
     print project_list
+    project_list = list(set(project_list))
     branch_list = []
     if project_list:
-        project = api_call(s.OPS_DOMAIN + s.GET_PROJECT_GITURL, {'project': project_list[0], 'env': 2})
+        project = api_call(s.OPS_DOMAIN + s.GET_PROJECT_GITURL, {'project': project_list[0]})
         print project, type(project)
         git_url = project.get('git_url', '')
         if git_url:
@@ -185,6 +186,28 @@ def publish_task_edit(request):
             if 'PM' in [group.name for group in user.groups.all()]:
                 pm_list.append(user.name)
         publish_task = get_object(PublishTask, id=task_id)
+
+        project_list = list()
+        projects = api_call(s.OPS_DOMAIN + s.GET_PROJECTS)
+        project_list = projects.get('projects')
+        print project_list
+        project_list = list(set(project_list))
+        branch_list = []
+        if project_list:
+            project = api_call(s.OPS_DOMAIN + s.GET_PROJECT_GITURL, {'project': project_list[0]})
+            print project, type(project)
+            git_url = project.get('git_url', '')
+            if git_url:
+                cmd = 'git ls-remote -t -h --refs ' + git_url
+                print cmd
+                subp = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+                c = subp.stdout.readline()
+                while c:
+                    ref = c.split('	')[1][:-1]
+                    if ref:
+                        branch_list.append(ref)
+                    c = subp.stdout.readline()
+                print branch_list
 
     if request.method == 'POST':
         project_id = request.POST.get('project_id', '')
