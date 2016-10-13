@@ -224,7 +224,7 @@ def publish_task_edit(request):
             upload_sql = request.FILES['update_sql']
             upload_sql_name = handle_uploaded_file(upload_sql)
         else:
-            upload_sql_name = ''
+            upload_sql_name = PublishTask.objects.get(id=project_id).upload_sql
         settings = request.POST.get('settings', '')
         update_note = request.POST.get('update_note', '')
         owner = request.POST.get('owner', '')
