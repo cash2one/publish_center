@@ -102,6 +102,7 @@ def publish_task_add(request):
             upload_sql_name = ''
         settings = request.POST.get('settings', '')
         update_note = request.POST.get('update_note', '')
+        qa_note = request.POST.get('qa_note', '')
         owner = request.POST.get('owner', '')
         try:
             current_year = timezone.now().year
@@ -130,6 +131,7 @@ def publish_task_add(request):
                                        upload_sql=upload_sql_name,
                                        settings=settings,
                                        update_note=update_note,
+                                       qa_note=qa_note,
                                        owner=owner,
                                        create_time=create_time,
                                        create_by=request.user.username,
@@ -227,6 +229,7 @@ def publish_task_edit(request):
             upload_sql_name = PublishTask.objects.get(id=project_id).upload_sql
         settings = request.POST.get('settings', '')
         update_note = request.POST.get('update_note', '')
+        qa_note = request.POST.get('qa_note', '')
         owner = request.POST.get('owner', '')
         try:
             PublishTask.objects.filter(id=project_id).update(
@@ -241,6 +244,7 @@ def publish_task_edit(request):
                                        upload_sql=upload_sql_name,
                                        settings=settings,
                                        update_note=update_note,
+                                       qa_note=qa_note,
                                        owner=owner)
         except ServerError:
             pass
@@ -285,7 +289,9 @@ def publish_task_submit(request):
                        "database_update": publish_task.database_update,
                        "upload_sql": publish_task.upload_sql,
                        "settings": publish_task.settings,
-                       "update_note": publish_task.update_note, "owner": publish_task.owner,
+                       "update_note": publish_task.update_note,
+                       "qa_note": publish_task.qa_note,
+                       "owner": publish_task.owner,
                        "submit_time": timezone.localtime(publish_task.submit_time).strftime("%Y-%m-%d %H:%M:%S"),
                        "submit_by": publish_task.submit_by,
                        "approval_time": timezone.localtime(publish_task.approval_time).strftime("%Y-%m-%d %H:%M:%S"),
@@ -359,7 +365,9 @@ def publish_task_apply(request):
                    "database_update": publish_task.database_update,
                    "upload_sql": publish_task.upload_sql,
                    "settings": publish_task.settings,
-                   "update_note": publish_task.update_note, "owner": publish_task.owner,
+                   "update_note": publish_task.update_note,
+                   "qa_note": publish_task.qa_note,
+                   "owner": publish_task.owner,
                    "submit_time": timezone.localtime(publish_task.submit_time).strftime("%Y-%m-%d %H:%M:%S"),
                    "submit_by": publish_task.submit_by,
                    "approval_time": timezone.localtime(publish_task.approval_time).strftime("%Y-%m-%d %H:%M:%S"),
